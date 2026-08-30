@@ -2,7 +2,7 @@ import duckdb
 from pathlib import Path
 from limpieza_ga_eventos import limpiar_ga_eventos
 from limpieza_reservas import limpiar_reservas
-from identidad import crosswalk_clientes
+from identidad import crosswalk_clientes, identidad_ga_eventos
 from limpieza_clientes import limpieza_clientes
 from limpieza_tours import limpiar_tours
 
@@ -18,6 +18,7 @@ archivos = {
 }
 
 def guardar_tabla(nombre_tabla, relacion):
+    con.sql(f"DROP TABLE IF EXISTS {nombre_tabla}")
     relacion.create(nombre_tabla)
 
 # limpiezas independientes, que no dependen de otras
@@ -38,6 +39,7 @@ ga_final = con.sql(f"""select ga.* exclude (user_id), c.user_id_canonico AS user
                         FROM ga_limpios ga
                         left join crosswalk c on ga.user_id = c.user_id_original""")
 
+
 # persistir en la bbdd
 guardar_tabla("clientes", clientes_limpio)
 guardar_tabla("reservas", reservas_final)
@@ -46,3 +48,4 @@ guardar_tabla("tours", tours_limpio)
 guardar_tabla("crosswalk_clientes", crosswalk)
 # proveedores no necesitó limpieza propia, se copia tal cual
 guardar_tabla("proveedores", con.sql(f"SELECT * FROM '{archivos['proveedores']}'"))
+ga_con_identidad = identidad_ga_eventos(ga_final)
