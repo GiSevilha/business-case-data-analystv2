@@ -5,6 +5,7 @@ from limpieza_reservas import limpiar_reservas
 from identidad import crosswalk_clientes, identidad_ga_eventos
 from limpieza_clientes import limpieza_clientes
 from limpieza_tours import limpiar_tours
+from calidad_trafico import marcar_trafico_bot
 
 con = duckdb.connect("data/processed/civitatis.duckdb")
 
@@ -39,13 +40,14 @@ ga_final = con.sql(f"""select ga.* exclude (user_id), c.user_id_canonico AS user
                         FROM ga_limpios ga
                         left join crosswalk c on ga.user_id = c.user_id_original""")
 
+ga_con_identidad = identidad_ga_eventos(ga_final)
+ga_final_completo = marcar_trafico_bot(ga_con_identidad)
 
 # persistir en la bbdd
 guardar_tabla("clientes", clientes_limpio)
 guardar_tabla("reservas", reservas_final)
-guardar_tabla("ga_eventos", ga_limpios)
+guardar_tabla("ga_eventos", ga_final_completo)
 guardar_tabla("tours", tours_limpio)
 guardar_tabla("crosswalk_clientes", crosswalk)
 # proveedores no necesitó limpieza propia, se copia tal cual
 guardar_tabla("proveedores", con.sql(f"SELECT * FROM '{archivos['proveedores']}'"))
-ga_con_identidad = identidad_ga_eventos(ga_final)
