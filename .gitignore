@@ -13,4 +13,5 @@ __pycache__/
 # IDE
 .idea/
 # Datos
-data/
+data/*
+!data/processed/
