@@ -4,8 +4,9 @@ from limpieza_ga_eventos import limpiar_ga_eventos
 from limpieza_reservas import limpiar_reservas
 from identidad import crosswalk_clientes
 from limpieza_clientes import limpieza_clientes
+from limpieza_tours import limpiar_tours
 
-con = duckdb.connect()
+con = duckdb.connect("data/processed/civitatis.duckdb")
 
 RAW_DIR = Path("data/raw")
 archivos = {
@@ -16,11 +17,17 @@ archivos = {
     "tours": RAW_DIR / "tours.csv",
 }
 
-reservas_limpio = limpiar_reservas(con, archivos["reservas"])
-crosswalk = crosswalk_clientes(con, archivos["clientes"])
-clientes_limpio = limpieza_clientes(con, archivos["clientes"])
-ga_limpios = limpiar_ga_eventos(con, archivos["ga_eventos"])
+def guardar_tabla(nombre_tabla, relacion):
+    relacion.create(nombre_tabla)
 
+# limpiezas independientes, que no dependen de otras
+clientes_limpio = limpieza_clientes(con, archivos["clientes"])
+crosswalk = crosswalk_clientes(con, archivos["clientes"])
+reservas_limpio = limpiar_reservas(con, archivos["reservas"])
+ga_limpios = limpiar_ga_eventos(con, archivos["ga_eventos"])
+tours_limpio = limpiar_tours(con, archivos["tours"])
+
+# traducción de user_id duplicados vía crosswalk
 reservas_final = con.sql("""
     SELECT r.* EXCLUDE (user_id), c.user_id_canonico AS user_id
     FROM reservas_limpio r
@@ -30,3 +37,12 @@ reservas_final = con.sql("""
 ga_final = con.sql(f"""select ga.* exclude (user_id), c.user_id_canonico AS user_id
                         FROM ga_limpios ga
                         left join crosswalk c on ga.user_id = c.user_id_original""")
+
+# persistir en la bbdd
+guardar_tabla("clientes", clientes_limpio)
+guardar_tabla("reservas", reservas_final)
+guardar_tabla("ga_eventos", ga_limpios)
+guardar_tabla("tours", tours_limpio)
+guardar_tabla("crosswalk_clientes", crosswalk)
+# proveedores no necesitó limpieza propia, se copia tal cual
+guardar_tabla("proveedores", con.sql(f"SELECT * FROM '{archivos['proveedores']}'"))
