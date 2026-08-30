@@ -131,3 +131,18 @@ def retencion_por_dispositivo_habitual(con):
         ORDER BY pct_retencion DESC
     """
     return con.sql(query)
+
+
+def acogida_por_destino(con):
+    query = """
+        SELECT
+            t.destino,
+            COUNT(*) AS volumen_reservas,
+            SUM(r.importe_eur) AS importe_total
+        FROM reservas r
+        JOIN tours t ON r.tour_id = t.tour_id
+        WHERE r.estado = 'confirmada'
+        GROUP BY t.destino
+        ORDER BY volumen_reservas DESC
+    """
+    return con.sql(query)
