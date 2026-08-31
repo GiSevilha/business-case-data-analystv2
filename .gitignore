@@ -16,3 +16,7 @@ __pycache__/
 .streamlit/
 # Datos
 data/*
+!data/processed
+data/processed/*
+# ...salvo la DB reducida que usa la app desplegada
+!data/processed/civitatis_app.duckdb
