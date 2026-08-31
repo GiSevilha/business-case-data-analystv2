@@ -1,0 +1,435 @@
+<title>Tres respuestas para el COMEX</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+
+<style>
+  :root {
+    --paper: #faf7f1;
+    --surface: #f3eee3;
+    --ink: #1b2430;
+    --ink-soft: #56606e;
+    --hairline: #e3dccd;
+    --accent: #0c6a5b;      /* verde ancla: hallazgos, palancas */
+    --alert: #b0451f;       /* sienna: pérdidas, riesgo */
+    --accent-wash: #e5efe9;
+    --alert-wash: #f3e6df;
+    --shadow: 24px 24px 60px rgba(27, 36, 48, .08);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #15191f;
+      --surface: #1d232b;
+      --ink: #e9e4d8;
+      --ink-soft: #9aa2ad;
+      --hairline: #2d343d;
+      --accent: #4bbfa8;
+      --alert: #e0805f;
+      --accent-wash: #1b2a29;
+      --alert-wash: #2a211d;
+      --shadow: 24px 24px 60px rgba(0, 0, 0, .35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #15191f;
+    --surface: #1d232b;
+    --ink: #e9e4d8;
+    --ink-soft: #9aa2ad;
+    --hairline: #2d343d;
+    --accent: #4bbfa8;
+    --alert: #e0805f;
+    --accent-wash: #1b2a29;
+    --alert-wash: #2a211d;
+    --shadow: 24px 24px 60px rgba(0, 0, 0, .35);
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+  .sheet {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(28px, 6vw, 76px) clamp(20px, 5vw, 60px) 96px;
+  }
+
+  h1, h2, h3 { font-family: "Fraunces", Georgia, serif; font-weight: 500; text-wrap: balance; }
+  p { margin: 0 0 1em; max-width: 64ch; }
+  strong { font-weight: 600; }
+  a { color: var(--accent); }
+
+  /* ---- masthead ---- */
+  .masthead { border-bottom: 2px solid var(--ink); padding-bottom: 22px; margin-bottom: 10px; }
+  .kicker {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px; letter-spacing: .22em; text-transform: uppercase;
+    color: var(--accent); margin: 0 0 14px;
+  }
+  h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.08; margin: 0 0 18px; }
+  .meta {
+    display: grid; grid-template-columns: max-content 1fr; gap: 3px 16px;
+    font-family: "IBM Plex Mono", monospace; font-size: 12.5px; color: var(--ink-soft);
+  }
+  .meta dt { text-transform: uppercase; letter-spacing: .1em; }
+  .meta dd { margin: 0; color: var(--ink); }
+
+  .thesis {
+    font-family: "Fraunces", Georgia, serif;
+    font-size: clamp(1.25rem, 3.4vw, 1.6rem);
+    line-height: 1.4; color: var(--ink);
+    border-left: 3px solid var(--accent);
+    padding: 6px 0 6px 22px; margin: 34px 0 14px;
+  }
+  .thesis b { font-weight: 600; color: var(--accent); }
+
+  /* ---- answer blocks ---- */
+  .answer { border-top: 1px solid var(--hairline); padding-top: 34px; margin-top: 42px; }
+  .answer > .num {
+    font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: .1em;
+    color: var(--ink-soft);
+  }
+  .q { font-size: 1.02rem; color: var(--ink-soft); font-style: italic; margin: 4px 0 14px; font-family: "Fraunces", Georgia, serif; }
+  h2 { font-size: clamp(1.35rem, 3.6vw, 1.75rem); line-height: 1.24; margin: 0 0 18px; }
+  .verdict {
+    background: var(--accent-wash);
+    border-radius: 3px;
+    padding: 16px 20px; margin: 0 0 22px;
+    font-size: 1.05rem;
+  }
+  .verdict.risk { background: var(--alert-wash); }
+  .verdict b { color: var(--accent); font-weight: 600; }
+  .verdict.risk b { color: var(--alert); }
+
+  /* ---- stat row ---- */
+  .stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr));
+    gap: 1px; background: var(--hairline);
+    border: 1px solid var(--hairline); border-radius: 4px; overflow: hidden;
+    margin: 0 0 24px;
+  }
+  .stat { background: var(--paper); padding: 14px 16px; }
+  .stat .v { font-family: "Fraunces", Georgia, serif; font-size: 1.5rem; font-variant-numeric: tabular-nums; display: block; line-height: 1.1; }
+  .stat .v.alert { color: var(--alert); }
+  .stat .l { font-size: 12px; color: var(--ink-soft); line-height: 1.35; display: block; margin-top: 5px; }
+
+  /* ---- bar chart ---- */
+  .bars { margin: 4px 0 22px; }
+  .bar-row { display: flex; align-items: center; gap: 12px; font-size: 13.5px; }
+  .bar-row + .bar-row { margin-top: 9px; }
+  .bar-row .name { flex: 0 0 96px; color: var(--ink-soft); text-align: right; font-family: "IBM Plex Mono", monospace; font-size: 11.5px; line-height: 1.25; }
+  .bar-track { display: block; flex: 1 1 auto; min-width: 0; background: var(--surface); border-radius: 2px; height: 22px; overflow: hidden; }
+  .bar-fill { display: block; height: 100%; background: var(--accent); border-radius: 2px; }
+  .bar-fill.dim { background: var(--ink-soft); opacity: .5; }
+  .bar-row .val { flex: 0 0 54px; font-family: "IBM Plex Mono", monospace; font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 13px; }
+  .chart-cap { font-size: 12.5px; color: var(--ink-soft); margin: -12px 0 24px; }
+
+  /* ---- discard list ---- */
+  .discard { border-left: 2px solid var(--hairline); padding-left: 18px; margin: 22px 0; }
+  .discard h3 {
+    font-family: "IBM Plex Mono", monospace; font-size: 11.5px; font-weight: 500;
+    letter-spacing: .16em; text-transform: uppercase; color: var(--ink-soft);
+    margin: 0 0 10px;
+  }
+  .discard ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+  .discard li { font-size: 14.5px; line-height: 1.5; padding-left: 20px; position: relative; }
+  .discard li::before { content: "✕"; position: absolute; left: 0; color: var(--alert); font-size: 12px; top: 2px; }
+  .discard li b { color: var(--ink); }
+
+  .caveat {
+    font-size: 14px; color: var(--ink-soft);
+    background: var(--surface); border-radius: 3px; padding: 12px 16px; margin: 18px 0 0;
+  }
+  .caveat b { color: var(--ink); }
+
+  /* ---- table ---- */
+  .table-wrap { overflow-x: auto; margin: 0 0 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+  th, td { text-align: right; padding: 8px 12px; border-bottom: 1px solid var(--hairline); white-space: nowrap; }
+  th:first-child, td:first-child { text-align: left; font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+  thead th { font-family: "IBM Plex Mono", monospace; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft); font-weight: 500; border-bottom-color: var(--ink); }
+  tbody tr.anchor td { color: var(--accent); }
+  tbody tr.tail td { color: var(--alert); }
+
+  /* ---- recommendations ---- */
+  .recs { counter-reset: rec; display: flex; flex-direction: column; gap: 16px; margin: 22px 0 0; }
+  .rec { display: grid; grid-template-columns: 34px 1fr; gap: 14px; }
+  .rec::before {
+    counter-increment: rec; content: counter(rec);
+    font-family: "Fraunces", Georgia, serif; font-size: 1.4rem; color: var(--accent);
+    line-height: 1.2; border-top: 2px solid var(--accent); padding-top: 6px;
+  }
+  .rec h3 { font-size: 1.05rem; margin: 0 0 4px; font-weight: 600; font-family: "IBM Plex Sans", sans-serif; }
+  .rec p { font-size: 14.5px; margin: 0; color: var(--ink-soft); }
+
+  .next { font-size: 14.5px; }
+  .next li { margin-bottom: 7px; }
+
+  /* ---- defense panel ---- */
+  .defense {
+    margin-top: 56px; border: 1.5px dashed var(--ink-soft); border-radius: 6px;
+    padding: clamp(20px, 4vw, 32px); background: var(--surface);
+  }
+  .defense > .kicker { color: var(--alert); }
+  .defense h2 { font-size: 1.4rem; margin: 0 0 6px; }
+  .defense > p.sub { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 22px; }
+  .qa { display: flex; flex-direction: column; gap: 18px; }
+  .qa > div { border-top: 1px solid var(--hairline); padding-top: 14px; }
+  .qa dt { font-weight: 600; font-size: 14.5px; margin-bottom: 5px; }
+  .qa dt::before { content: "P — "; font-family: "IBM Plex Mono", monospace; color: var(--alert); }
+  .qa dd { margin: 0; font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+  .qa dd::before { content: "R — "; font-family: "IBM Plex Mono", monospace; color: var(--accent); }
+
+  .foot { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--hairline); font-size: 12px; color: var(--ink-soft); font-family: "IBM Plex Mono", monospace; }
+
+  @media (max-width: 520px) {
+    body { font-size: 16px; }
+    .bar-row { grid-template-columns: 72px 1fr 44px; }
+    .meta { grid-template-columns: 1fr; gap: 2px; }
+    .meta dt { margin-top: 8px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .bar-fill { transform-origin: left; animation: grow .7s cubic-bezier(.2,.7,.2,1) both; }
+    @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .bar-fill { animation: none; }
+  }
+</style>
+
+<div class="sheet">
+
+  <header class="masthead">
+    <p class="kicker">Memorándum · Data &amp; Estrategia</p>
+    <h1>Tres respuestas para el Comité</h1>
+    <dl class="meta">
+      <dt>Para</dt><dd>Comité Ejecutivo (COMEX)</dd>
+      <dt>Asunto</dt><dd>Repetición de clientes · Destinos · Estado del negocio</dd>
+      <dt>Ventana</dt><dd>jul 2024 – jun 2026 (24 meses de datos reales)</dd>
+      <dt>Base</dt><dd>8.369 reservas · 5.785 compradores · 703 k eventos GA</dd>
+    </dl>
+  </header>
+
+  <p class="thesis">
+    Vendemos bien y crecemos, pero <b>perdemos 108 k€ al año en cancelaciones</b> y
+    dejamos infrautilizado <b>el mejor gancho de fidelización que tenemos</b>: el free tour,
+    que casi triplica la probabilidad de que un cliente vuelva.
+  </p>
+
+
+  <section class="answer">
+    <span class="num">01</span>
+    <p class="q">¿Cuánto hemos vendido realmente?</p>
+    <h2>624.789 € confirmados en 24 meses. El problema no es cuánto vendemos, sino cuánto se cae.</h2>
+
+    <div class="stats">
+      <div class="stat"><span class="v">624.789 €</span><span class="l">Venta confirmada · 6.928 reservas</span></div>
+      <div class="stat"><span class="v alert">108.157 €</span><span class="l">Cancelado · 17,3 % sobre la venta</span></div>
+      <div class="stat"><span class="v">26.290 €</span><span class="l">Pipeline pendiente</span></div>
+      <div class="stat"><span class="v">21 k → 35 k €</span><span class="l">Facturación mensual: 2024 → 2026</span></div>
+    </div>
+
+    <p><strong>Definición de venta:</strong> importe de las reservas en estado <em>confirmada</em>.
+    Es dinero comprometido, no intención de compra ni proyección. Uso <code>reservas.estado</code>
+    como fuente de verdad —no Google Analytics—, porque 68 reservas reales no tienen ningún
+    evento registrado (fallo de tracking del 10–15 de marzo de 2026).</p>
+
+    <p><strong>Dónde está la fuga:</strong> las cancelaciones se disparan con la antelación
+    —<strong>24 %</strong> a más de 90 días vs. <strong>10 %</strong> a menos de una semana— y
+    en los canales <strong>Social y Afiliados (17–18 %)</strong>. No son estacionales ni van a peor:
+    llevan 24 meses estables entre el 12 y el 17 %.</p>
+
+    <div class="discard">
+      <h3>Hipótesis descartadas</h3>
+      <ul>
+        <li><b>Incluir el pipeline pendiente en la cifra de venta:</b> solo sube un 4 % (651 k€) y no cambia el mensaje.</li>
+        <li><b>Las cancelaciones están creciendo / son estacionales:</b> no; tasa plana en todo el periodo.</li>
+        <li><b>El destino explica la cancelación:</b> no; oscila 12–15 % sin diferencias reales.</li>
+      </ul>
+    </div>
+
+    <p class="caveat"><b>Riesgo operativo aparte:</b> 282 reservas confirmadas (27.703 €) se crearon
+    <em>después</em> de que su proveedor causara baja. Operaciones debería confirmar si el servicio se prestó.</p>
+  </section>
+
+
+  <section class="answer">
+    <span class="num">02</span>
+    <p class="q">¿Qué factores explican que un cliente repita o no?</p>
+    <h2>El factor decisivo es haber entrado por un free tour. El segundo, el canal. Dispositivo, importe y campaña no explican nada.</h2>
+
+    <div class="verdict">
+      <b>28,9 %</b> de los compradores repiten (32 % en cohortes maduras). Y esos repetidores
+      generan el <b>46 % de la facturación</b> —195 €/cliente frente a 93 € del que compra una vez—.
+      Por eso mueve la aguja.
+    </div>
+
+    <div class="bars">
+      <div class="bar-row"><span class="name">1ª = free tour</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="val">52,2 %</span></div>
+      <div class="bar-row"><span class="name">1ª = de pago</span><span class="bar-track"><span class="bar-fill dim" style="width:43.7%"></span></span><span class="val">22,8 %</span></div>
+    </div>
+    <p class="chart-cap">Retención según la primera reserva. El efecto se mantiene <em>dentro</em> de cada canal
+    (free tour retiene 43–65 %; de pago 16–35 %), así que no es un artefacto del canal.</p>
+
+    <div class="bars">
+      <div class="bar-row"><span class="name">Email</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="val">42,6 %</span></div>
+      <div class="bar-row"><span class="name">Directo</span><span class="bar-track"><span class="bar-fill" style="width:77%"></span></span><span class="val">32,8 %</span></div>
+      <div class="bar-row"><span class="name">SEO</span><span class="bar-track"><span class="bar-fill" style="width:66.7%"></span></span><span class="val">28,4 %</span></div>
+      <div class="bar-row"><span class="name">SEM</span><span class="bar-track"><span class="bar-fill" style="width:62.7%"></span></span><span class="val">26,7 %</span></div>
+      <div class="bar-row"><span class="name">Afiliados</span><span class="bar-track"><span class="bar-fill" style="width:60.1%"></span></span><span class="val">25,6 %</span></div>
+      <div class="bar-row"><span class="name">Social</span><span class="bar-track"><span class="bar-fill dim" style="width:49.1%"></span></span><span class="val">20,9 %</span></div>
+    </div>
+    <p class="chart-cap">Retención por canal de la primera reserva (IC 95 % ≈ ±3–5 pp; Email y Social no se solapan).
+    Social y Afiliados son el tráfico de peor calidad: retienen peor <em>y</em> cancelan más.</p>
+
+    <div class="discard">
+      <h3>Hipótesis descartadas</h3>
+      <ul>
+        <li><b>El dispositivo influye en la repetición:</b> 29 % / 29 % / 26 % (móvil / escritorio / tablet). Nulo. <em>(Sí influye en la compra: escritorio convierte 2,3× más que móvil.)</em></li>
+        <li><b>Las campañas newsletter_semanal (50 %) y post_compra_crossell (40 %) son ganadoras:</b> muestras pequeñas (n = 125 / 144, IC ±9 pp) y nombres de campañas de re-compra. Probable error de etiquetado de origen, no una palanca.</li>
+        <li><b>El importe o el tamaño del grupo de la primera reserva:</b> sin gradiente (todo 27–31 %).</li>
+        <li><b>Una cancelación puntual rompe la relación:</b> no; quien cancela su primera reserva compra después igual (31 %).</li>
+        <li><b>Las diferencias son sesgo de censura temporal:</b> no; la repetición a 180 días es estable (~30 %) en todas las cohortes maduras. Solo excluyo las 2 últimas.</li>
+      </ul>
+    </div>
+
+    <p class="caveat"><b>Matiz honesto para la defensa:</b> la mitad de los "recurrentes" reservan su
+    segunda actividad en menos de 14 días —es el <em>mismo viaje</em>, no lealtad—. La recompra real
+    (&gt;14 días, mediana 80) es del <b>17 %</b>. Conviene reportar las dos cifras.</p>
+  </section>
+
+
+  <section class="answer">
+    <span class="num">03</span>
+    <p class="q">¿Qué localizaciones tienen mayor acogida y cuáles retienen mejor?</p>
+    <h2>Madrid y Roma son los destinos ancla. París factura por ticket, no por volumen. Marrakech falla en todo.</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Destino</th><th>Reservas</th><th>Revenue</th><th>Ticket</th><th>Pers./res.</th><th>Retención</th></tr>
+        </thead>
+        <tbody>
+          <tr class="anchor"><td>Roma</td><td>868</td><td>73.437 €</td><td>84,6 €</td><td>3,00</td><td>36,8 %</td></tr>
+          <tr class="anchor"><td>Madrid</td><td>990</td><td>74.847 €</td><td>75,6 €</td><td>3,08</td><td>34,4 %</td></tr>
+          <tr class="anchor"><td>París</td><td>819</td><td>79.255 €</td><td>96,8 €</td><td>2,94</td><td>32,0 %</td></tr>
+          <tr><td>Londres</td><td>691</td><td>73.383 €</td><td>106,2 €</td><td>2,93</td><td>29,2 %</td></tr>
+          <tr><td>Nueva York</td><td>606</td><td>51.134 €</td><td>84,4 €</td><td>2,98</td><td>22,2 %</td></tr>
+          <tr class="tail"><td>Marrakech</td><td>396</td><td>43.285 €</td><td>109,3 €</td><td>2,94</td><td>17,9 %</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p><strong>Acogida:</strong> Madrid, Roma y París concentran el mayor volumen de reservas confirmadas.
+    <strong>París factura más que Madrid con menos reservas:</strong> la hipótesis de "grupos más grandes"
+    es <em>falsa</em> —2,94 personas por reserva frente a 3,08 en Madrid—. Es <strong>precio por persona</strong>
+    (33 € vs. 24 €): simplemente vende tours más caros.</p>
+
+    <p><strong>Retención:</strong> Roma (37 %), Madrid (34 %) y París (32 %) fidelizan; Marrakech (18 %),
+    Nueva York y Estambul (22 %) no.</p>
+
+    <div class="discard">
+      <h3>Hipótesis descartadas</h3>
+      <ul>
+        <li><b>La retención por destino es un reflejo del mix de canal:</b> no; al estandarizar cada destino al reparto de canales global, el ranking no se mueve (Roma 37 → Marrakech 18).</li>
+        <li><b>Marrakech retiene mal porque es caro:</b> su ticket es medio-alto (109 €) como Lisboa o Londres, que retienen bastante mejor. Es un problema de encaje/expectativa, no de precio.</li>
+      </ul>
+    </div>
+  </section>
+
+
+  <section class="answer">
+    <span class="num">→</span>
+    <h2>Recomendaciones, por impacto económico</h2>
+    <div class="recs">
+      <div class="rec">
+        <div>
+          <h3>Atacar las cancelaciones antes que nada</h3>
+          <p>108 k€ en juego, la mayor ganancia inmediata. Depósito o recordatorios reforzados para reservas
+          con más de 30 días de antelación; auditar la calidad de Social y Afiliados.</p>
+        </div>
+      </div>
+      <div class="rec">
+        <div>
+          <h3>Escalar el free tour como canal de captación</h3>
+          <p>Casi triplica la retención y el 100 % de las segundas reservas de esos clientes son de pago
+          (ticket 107 €, y antes: 23 vs. 70 días). Hoy solo el 21 % de los clientes entra así.</p>
+        </div>
+      </div>
+      <div class="rec">
+        <div>
+          <h3>Reasignar presupuesto de Social/Afiliados a Email y Directo</h3>
+          <p>Retienen 1,5–2× mejor y cancelan menos. Mismo gasto, mejor cartera de clientes.</p>
+        </div>
+      </div>
+      <div class="rec">
+        <div>
+          <h3>Investigar la fricción de checkout en móvil</h3>
+          <p>El móvil es el 70 % del tráfico y convierte 2,3× peor que escritorio. Aquí hay ingreso escondido.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="answer">
+    <span class="num">·</span>
+    <h2>Lo que no pude cerrar</h2>
+    <ul class="next">
+      <li><strong>Tracking de conversión:</strong> el evento <code>purchase</code> solo se dispara con sesión iniciada, así que la tasa de conversión no es medible para el 90 % del tráfico (anónimo). En sesiones identificadas es del 32 %.</li>
+      <li><strong>Diccionario de campañas con Marketing:</strong> el etiquetado de origen parece mezclar campañas de captación con las de re-compra.</li>
+      <li><strong>304 reservas de SEM sin campaña asociada:</strong> ¿pérdida de trazabilidad o configuración específica?</li>
+    </ul>
+  </section>
+
+
+  <aside class="defense">
+    <p class="kicker">Notas para la defensa · no forma parte de la presentación</p>
+    <h2>Si me preguntan…</h2>
+    <p class="sub">Respuestas cortas para la sesión de preguntas. Cada una se apoya en una consulta del repositorio.</p>
+    <dl class="qa">
+      <div>
+        <dt>¿Por qué "venta" es solo lo confirmado y no incluyes lo pendiente?</dt>
+        <dd>Porque es dinero comprometido, no una probabilidad. Lo pendiente añade solo un 4 % (651 k€) y no cambia ninguna conclusión. Si el comité prefiere esa cifra, la doy sin problema.</dd>
+      </div>
+      <div>
+        <dt>¿Por qué te fías de reservas.estado y no de Google Analytics?</dt>
+        <dd>68 reservas reales no tienen ningún evento en GA por un fallo de tracking concentrado en 5 días. GA sirve para entender navegación; no para la verdad de negocio.</dd>
+      </div>
+      <div>
+        <dt>¿El free tour no canibaliza ventas de pago?</dt>
+        <dd>No. El 100 % de las segundas reservas de esos clientes son de pago y llegan antes (23 vs. 70 días). Aportan menos por cabeza (71 € vs. 136 € de valor total) pero con coste marginal bajo: es captación, no descuento.</dd>
+      </div>
+      <div>
+        <dt>¿Cómo defines "cliente recurrente"?</dt>
+        <dd>user_id con 2 o más reservas confirmadas en días distintos. Reporto también la "recompra real" (segunda reserva a más de 14 días) porque la mitad de las segundas reservas son del mismo viaje.</dd>
+      </div>
+      <div>
+        <dt>Cámbiame la premisa: ¿y si "recurrente" es solo recompra a más de 14 días?</dt>
+        <dd>La tasa baja del 29 % al 17 %, pero el orden de los factores —free tour &gt; canal &gt; destino— se mantiene igual.</dd>
+      </div>
+      <div>
+        <dt>¿Tienes muestra suficiente para afirmar esto?</dt>
+        <dd>Para canal y destino sí (n = 400–1.800 por grupo, IC ±3–5 pp). Para campañas individuales no (IC ±9 pp): por eso no las uso como palanca.</dd>
+      </div>
+      <div>
+        <dt>¿No estás sesgada porque los clientes nuevos no han tenido tiempo de repetir?</dt>
+        <dd>Lo controlo: mido repetición dentro de una ventana fija de 180 días por cohorte trimestral. Es estable (~30 %) en todas las cohortes maduras; excluyo las dos últimas.</dd>
+      </div>
+      <div>
+        <dt>¿Por qué el dispositivo no explica la repetición si el móvil convierte peor?</dt>
+        <dd>Son dos cosas distintas: el móvil pone una barrera a la <em>primera</em> compra (checkout), pero una vez que alguien compra, el dispositivo que usa no dice nada sobre si volverá.</dd>
+      </div>
+    </dl>
+  </aside>
+
+  <p class="foot">Fuente: civitatis.duckdb · consultas en src/metricas.py y src/informe.py · datos sintéticos</p>
+
+</div>
