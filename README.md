@@ -57,27 +57,44 @@ pip install -r requirements.txt
 
 ## Hallazgos principales
 
-> El memo (`memo/memo_comex.html`) y `src/informe.py` amplían este análisis con
-> el efecto del *free tour* de entrada, intervalos de confianza y el control del
-> sesgo de censura temporal.
+> `src/informe.py` y `src/metricas.py` contienen las consultas de contraste de
+> hipótesis (intervalos de confianza, control del sesgo de censura temporal,
+> retención controlada por canal…). El memo (`memo/memo_comex.html`) es el
+> resumen ejecutivo.
 
 ### 1. Repetición — ¿qué factores explican que un cliente repita?
 
-1. **Canal — el factor más sólido y accionable.** El canal de adquisición
-   predice la retención con claridad, y es algo sobre lo que el negocio puede
-   actuar directamente (dónde invertir el presupuesto de marketing).
-2. **Destino — efecto real pero menos accionable.** Rango del 17,9 % (Marrakech)
+Tasa base: **28,9 %** de los compradores repiten (≈ 32 % en cohortes con
+suficiente antigüedad). Los repetidores generan el **46 % de la facturación**.
+
+1. **Free tour de entrada — el factor con mayor efecto.** Los clientes cuya
+   primera reserva fue un free tour repiten el **52,2 %**, frente al **22,8 %**
+   de los que empezaron con una reserva de pago. El efecto se mantiene *dentro*
+   de cada canal, así que no es un artefacto del canal de captación. Además, el
+   100 % de las segundas reservas de esos clientes son de pago.
+2. **Canal — el factor más sólido de forma accionable.** El canal de adquisición
+   predice la retención con claridad (Email ≈ 43 % vs. Social ≈ 21 %) y es algo
+   sobre lo que el negocio puede actuar directamente (dónde invertir el
+   presupuesto de marketing). Social y Afiliados son el tráfico de peor calidad:
+   retienen peor *y* cancelan más.
+3. **Destino — efecto real pero menos accionable.** Rango del 17,9 % (Marrakech)
    al 36,8 % (Roma), con muestras robustas (300–710 clientes por destino). El
    efecto es real, pero Civitatis no puede "fabricar" más demanda de Roma a
    voluntad: es más útil como información (dónde reforzar oferta o marketing
    local) que como palanca directa.
-3. **Campaña — dato interesante, con una advertencia.** `newsletter_semanal`
+4. **Campaña — dato interesante, con una advertencia.** `newsletter_semanal`
    (49,6 %) y `post_compra_crossell` (40,3 %) destacan, pero con muestras
    pequeñas (125 y 144 clientes) y nombres que suenan a campañas de
    retención/re-compra, no de primera captación. Se anota como posible
    inconsistencia en el etiquetado de origen de los datos, no como palanca.
-4. **Dispositivo — sin efecto real.** 29,3 % / 28,9 % / 26,1 % (mobile /
-   desktop / tablet). Diferencias mínimas: se descarta como factor de repetición.
+5. **Dispositivo — sin efecto real.** 29,3 % / 28,9 % / 26,1 % (mobile /
+   desktop / tablet). Diferencias mínimas: se descarta como factor de
+   repetición. (Sí afecta a la *primera compra*: escritorio convierte ~2,3×
+   mejor que móvil.)
+
+> Matiz para la defensa: ~la mitad de las segundas reservas ocurren en menos de
+> 14 días del primer pedido — son del mismo viaje, no recompra real. La recompra
+> a más de 14 días (mediana ~80 días) es del 17 %.
 
 ### 2. Destinos — ¿qué localizaciones tienen mayor acogida y cuáles retienen mejor?
 
@@ -263,10 +280,11 @@ revisé.
 - Un panel de "notas para la defensa" con preguntas anticipadas dentro del memo
   → lo quité del entregable: es material de preparación personal, no para el
   COMEX.
-- La IA señaló el *free tour de entrada* como el factor con mayor efecto sobre
-  la repetición. Aparece como hallazgo destacado en el memo, pero en el análisis
-  del README priorizo el **canal** como conclusión principal, por ser la palanca
-  sobre la que el negocio puede actuar de forma directa.
+- Mis apuntes iniciales del análisis de repetición lideraban con el **canal**.
+  La IA, al cruzar los datos, señaló que el *free tour de entrada* tiene un
+  efecto mayor y lo verifiqué (se sostiene dentro de cada canal). Lo incorporé
+  como factor principal en el memo y en el README, manteniendo el canal como la
+  palanca más accionable.
 - Animaciones y adornos visuales en el memo y el dashboard → reducidos al
   mínimo, porque el enunciado indica explícitamente que la estética no puntúa.
 
