@@ -1,3 +1,4 @@
-duckdb
-pandas
-
+duckdb==1.5.5
+pandas==3.0.5
+streamlit==1.62.0
+altair==6.2.2
