@@ -234,5 +234,41 @@ pip install -r requirements.txt
 
 ### Uso de herramientas de IA
 
-_(Completar: qué tareas se delegaron en asistentes de IA, qué propusieron, qué se
-descartó y por qué. El código y las decisiones se revisaron y verificaron manualmente.)_
+Utilicé asistentes de IA (Claude) a lo largo de todo el proceso, con distinta
+intensidad según la fase.
+
+**Limpieza del dataset y definiciones — la IA como revisora.** La detección de
+inconsistencias, las decisiones de limpieza y las definiciones de métrica
+(venta, cliente recurrente, sesión, conversión) son mías y están documentadas
+más arriba. Usé la IA para contrastarlas: revisar el razonamiento de cada
+decisión, buscar casos que se me hubieran podido escapar y comprobar que las
+cifras cuadraban.
+
+**Análisis de hipótesis — trabajo conjunto.** Las consultas del bloque de
+contraste de hipótesis de `src/metricas.py` y el runner `src/informe.py` se
+escribieron con ayuda de IA a partir de preguntas que yo planteé (¿el efecto del
+canal se sostiene al controlar por destino?, ¿hay sesgo de censura temporal en
+la tasa de repetición?, ¿de qué depende la cancelación?…). Revisé cada consulta
+y su resultado antes de darlos por buenos.
+
+**App y memo — donde más me apoyé en la IA.** La implementación de `src/app.py`
+(estructura Streamlit, consultas parametrizadas por fecha, gráficos con Altair)
+y el diseño y la maquetación de `memo/memo_comex.html` se hicieron principalmente
+con IA. Yo definí qué debía mostrar cada vista, con qué filtros y qué mensaje
+tenía que transmitir el memo; la IA generó el código y el HTML, que ejecuté y
+revisé.
+
+**Qué me propuso y descarté:**
+
+- Un panel de "notas para la defensa" con preguntas anticipadas dentro del memo
+  → lo quité del entregable: es material de preparación personal, no para el
+  COMEX.
+- La IA señaló el *free tour de entrada* como el factor con mayor efecto sobre
+  la repetición. Aparece como hallazgo destacado en el memo, pero en el análisis
+  del README priorizo el **canal** como conclusión principal, por ser la palanca
+  sobre la que el negocio puede actuar de forma directa.
+- Animaciones y adornos visuales en el memo y el dashboard → reducidos al
+  mínimo, porque el enunciado indica explícitamente que la estética no puntúa.
+
+Todo el código entregado se ejecuta y se ha verificado contra la base de datos;
+entiendo y puedo explicar cada parte.
