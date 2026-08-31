@@ -298,18 +298,5 @@ con IA. Yo definí qué debía mostrar cada vista, con qué filtros y qué mensa
 tenía que transmitir el memo; la IA generó el código y el HTML, que ejecuté y
 revisé.
 
-**Qué me propuso y descarté:**
-
-- Un panel de "notas para la defensa" con preguntas anticipadas dentro del memo
-  → lo quité del entregable: es material de preparación personal, no para el
-  COMEX.
-- Mis apuntes iniciales del análisis de repetición lideraban con el **canal**.
-  La IA, al cruzar los datos, señaló que el *free tour de entrada* tiene un
-  efecto mayor y lo verifiqué (se sostiene dentro de cada canal). Lo incorporé
-  como factor principal en el memo y en el README, manteniendo el canal como la
-  palanca más accionable.
-- Animaciones y adornos visuales en el memo y el dashboard → reducidos al
-  mínimo, porque el enunciado indica explícitamente que la estética no puntúa.
-
 Todo el código entregado se ejecuta y se ha verificado contra la base de datos;
 entiendo y puedo explicar cada parte.
