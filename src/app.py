@@ -24,7 +24,10 @@ import duckdb
 import pandas as pd
 import streamlit as st
 
-DB_PATH = Path("data/processed/civitatis.duckdb")
+# DB reducida para la app (se versiona y se despliega); si no está, se usa la completa.
+_SLIM = Path("data/processed/civitatis_app.duckdb")
+_FULL = Path("data/processed/civitatis.duckdb")
+DB_PATH = _SLIM if _SLIM.exists() else _FULL
 
 st.set_page_config(
     page_title="Civitatis · Análisis",
@@ -41,7 +44,7 @@ def get_con() -> duckdb.DuckDBPyConnection:
     if not DB_PATH.exists():
         st.error(
             f"No encuentro la base de datos en `{DB_PATH}`.\n\n"
-            "Genérala primero con:\n\n```\npython src/main.py\n```"
+            "Genérala primero con:\n\n```\npython src/main.py\npython src/build_app_db.py\n```"
         )
         st.stop()
     return duckdb.connect(str(DB_PATH), read_only=True)

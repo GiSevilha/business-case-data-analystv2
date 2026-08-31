@@ -4,7 +4,17 @@ Análisis del tráfico web y las reservas de Civitatis para responder a las tres
 preguntas del Comité Ejecutivo: **repetición de clientes**, **destinos** y
 **estado del negocio**.
 
-## Cómo ejecutar
+## App desplegada
+
+**[▶ Abrir la app en Streamlit Community Cloud](https://TU-USUARIO-civitatis.streamlit.app)**
+_(sustituye por la URL real tras el despliegue — ver sección "Despliegue")_
+
+La app funciona en la nube con una base de datos reducida
+(`data/processed/civitatis_app.duckdb`, ~9 MB) que **sí** está versionada y
+contiene solo lo que la app necesita (`reservas`, `tours` y un subconjunto de
+columnas de `ga_eventos`). Las cifras son idénticas a las de la base completa.
+
+## Cómo ejecutar en local
 
 ```bash
 python -m venv .venv
@@ -20,11 +30,9 @@ pip install -r requirements.txt
 2. **Construye la base de datos limpia** (DuckDB):
 
    ```bash
-   python src/main.py
+   python src/main.py            # -> data/processed/civitatis.duckdb (completa)
+   python src/build_app_db.py    # -> data/processed/civitatis_app.duckdb (reducida)
    ```
-
-   Genera `data/processed/civitatis.duckdb` con las tablas limpias y las
-   correspondencias de identidad.
 
 3. **App interactiva:**
 
@@ -32,15 +40,28 @@ pip install -r requirements.txt
    streamlit run src/app.py
    ```
 
-   Filtros por rango de fechas personalizado, semana o mes; por canal y por
-   destino. Cuatro pestañas: estado del negocio, repetición, destinos, tráfico y
-   conversión.
+   Usa la DB reducida si existe, y si no la completa. Filtros por rango de fechas
+   personalizado, semana o mes; por canal y por destino. Cuatro pestañas: estado
+   del negocio, repetición, destinos, tráfico y conversión.
 
 4. **Informe estático** (todas las métricas por consola, sin la app):
 
    ```bash
    python src/informe.py
    ```
+
+## Despliegue (Streamlit Community Cloud)
+
+1. Repositorio en GitHub con `src/app.py`, `requirements.txt` y
+   `data/processed/civitatis_app.duckdb` versionados (ya lo están).
+2. Entra en <https://share.streamlit.io> con la cuenta de GitHub.
+3. **New app** → elige el repo y la rama, *Main file path* = `src/app.py`.
+4. **Deploy**. En ~1 min queda una URL pública tipo
+   `https://<algo>.streamlit.app` que abre la app con un clic.
+
+Para actualizarla basta con hacer `push`: Streamlit Cloud redepliega solo. Si
+cambian los datos, regenera la DB reducida (`python src/build_app_db.py`) y
+súbela.
 
 ## Estructura
 
@@ -52,7 +73,9 @@ pip install -r requirements.txt
 | `src/calidad_trafico.py` | Marcado de tráfico de bot (`es_bot`) |
 | `src/metricas.py` | Todas las consultas de negocio y de contraste de hipótesis |
 | `src/informe.py` | Runner que ejecuta `metricas.py` agrupado por pregunta del comité |
+| `src/build_app_db.py` | Genera la DB reducida que usa la app desplegada |
 | `src/app.py` | Aplicación Streamlit |
+| `data/processed/civitatis_app.duckdb` | DB reducida versionada (~9 MB) para el despliegue |
 | `memo/memo_comex.html` | Memo ejecutivo de una página para el COMEX |
 
 ## Hallazgos principales
@@ -274,19 +297,6 @@ y el diseño y la maquetación de `memo/memo_comex.html` se hicieron principalme
 con IA. Yo definí qué debía mostrar cada vista, con qué filtros y qué mensaje
 tenía que transmitir el memo; la IA generó el código y el HTML, que ejecuté y
 revisé.
-
-**Qué me propuso y descarté:**
-
-- Un panel de "notas para la defensa" con preguntas anticipadas dentro del memo
-  → lo quité del entregable: es material de preparación personal, no para el
-  COMEX.
-- Mis apuntes iniciales del análisis de repetición lideraban con el **canal**.
-  La IA, al cruzar los datos, señaló que el *free tour de entrada* tiene un
-  efecto mayor y lo verifiqué (se sostiene dentro de cada canal). Lo incorporé
-  como factor principal en el memo y en el README, manteniendo el canal como la
-  palanca más accionable.
-- Animaciones y adornos visuales en el memo y el dashboard → reducidos al
-  mínimo, porque el enunciado indica explícitamente que la estética no puntúa.
 
 Todo el código entregado se ejecuta y se ha verificado contra la base de datos;
 entiendo y puedo explicar cada parte.
