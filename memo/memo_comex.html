@@ -172,21 +172,6 @@
   .next { font-size: 14.5px; }
   .next li { margin-bottom: 7px; }
 
-  /* ---- defense panel ---- */
-  .defense {
-    margin-top: 56px; border: 1.5px dashed var(--ink-soft); border-radius: 6px;
-    padding: clamp(20px, 4vw, 32px); background: var(--surface);
-  }
-  .defense > .kicker { color: var(--alert); }
-  .defense h2 { font-size: 1.4rem; margin: 0 0 6px; }
-  .defense > p.sub { font-size: 13.5px; color: var(--ink-soft); margin: 0 0 22px; }
-  .qa { display: flex; flex-direction: column; gap: 18px; }
-  .qa > div { border-top: 1px solid var(--hairline); padding-top: 14px; }
-  .qa dt { font-weight: 600; font-size: 14.5px; margin-bottom: 5px; }
-  .qa dt::before { content: "P — "; font-family: "IBM Plex Mono", monospace; color: var(--alert); }
-  .qa dd { margin: 0; font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
-  .qa dd::before { content: "R — "; font-family: "IBM Plex Mono", monospace; color: var(--accent); }
-
   .foot { margin-top: 44px; padding-top: 18px; border-top: 1px solid var(--hairline); font-size: 12px; color: var(--ink-soft); font-family: "IBM Plex Mono", monospace; }
 
   @media (max-width: 520px) {
@@ -389,46 +374,6 @@
     </ul>
   </section>
 
-
-  <aside class="defense">
-    <p class="kicker">Notas para la defensa · no forma parte de la presentación</p>
-    <h2>Si me preguntan…</h2>
-    <p class="sub">Respuestas cortas para la sesión de preguntas. Cada una se apoya en una consulta del repositorio.</p>
-    <dl class="qa">
-      <div>
-        <dt>¿Por qué "venta" es solo lo confirmado y no incluyes lo pendiente?</dt>
-        <dd>Porque es dinero comprometido, no una probabilidad. Lo pendiente añade solo un 4 % (651 k€) y no cambia ninguna conclusión. Si el comité prefiere esa cifra, la doy sin problema.</dd>
-      </div>
-      <div>
-        <dt>¿Por qué te fías de reservas.estado y no de Google Analytics?</dt>
-        <dd>68 reservas reales no tienen ningún evento en GA por un fallo de tracking concentrado en 5 días. GA sirve para entender navegación; no para la verdad de negocio.</dd>
-      </div>
-      <div>
-        <dt>¿El free tour no canibaliza ventas de pago?</dt>
-        <dd>No. El 100 % de las segundas reservas de esos clientes son de pago y llegan antes (23 vs. 70 días). Aportan menos por cabeza (71 € vs. 136 € de valor total) pero con coste marginal bajo: es captación, no descuento.</dd>
-      </div>
-      <div>
-        <dt>¿Cómo defines "cliente recurrente"?</dt>
-        <dd>user_id con 2 o más reservas confirmadas en días distintos. Reporto también la "recompra real" (segunda reserva a más de 14 días) porque la mitad de las segundas reservas son del mismo viaje.</dd>
-      </div>
-      <div>
-        <dt>Cámbiame la premisa: ¿y si "recurrente" es solo recompra a más de 14 días?</dt>
-        <dd>La tasa baja del 29 % al 17 %, pero el orden de los factores —free tour &gt; canal &gt; destino— se mantiene igual.</dd>
-      </div>
-      <div>
-        <dt>¿Tienes muestra suficiente para afirmar esto?</dt>
-        <dd>Para canal y destino sí (n = 400–1.800 por grupo, IC ±3–5 pp). Para campañas individuales no (IC ±9 pp): por eso no las uso como palanca.</dd>
-      </div>
-      <div>
-        <dt>¿No estás sesgada porque los clientes nuevos no han tenido tiempo de repetir?</dt>
-        <dd>Lo controlo: mido repetición dentro de una ventana fija de 180 días por cohorte trimestral. Es estable (~30 %) en todas las cohortes maduras; excluyo las dos últimas.</dd>
-      </div>
-      <div>
-        <dt>¿Por qué el dispositivo no explica la repetición si el móvil convierte peor?</dt>
-        <dd>Son dos cosas distintas: el móvil pone una barrera a la <em>primera</em> compra (checkout), pero una vez que alguien compra, el dispositivo que usa no dice nada sobre si volverá.</dd>
-      </div>
-    </dl>
-  </aside>
 
   <p class="foot">Fuente: civitatis.duckdb · consultas en src/metricas.py y src/informe.py · datos sintéticos</p>
 
