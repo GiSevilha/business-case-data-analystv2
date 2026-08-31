@@ -12,5 +12,7 @@ __pycache__/
 
 # IDE
 .idea/
+.claude/
+.streamlit/
 # Datos
 data/*
