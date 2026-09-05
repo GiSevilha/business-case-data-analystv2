@@ -106,10 +106,13 @@ suficiente antigüedad). Los repetidores generan el **46 % de la facturación**.
    voluntad: es más útil como información (dónde reforzar oferta o marketing
    local) que como palanca directa.
 4. **Campaña — dato interesante, con una advertencia.** `newsletter_semanal`
-   (49,6 %) y `post_compra_crossell` (40,3 %) destacan, pero con muestras
-   pequeñas (125 y 144 clientes) y nombres que suenan a campañas de
-   retención/re-compra, no de primera captación. Se anota como posible
-   inconsistencia en el etiquetado de origen de los datos, no como palanca.
+   (49,6 %) y `post_compra_crossell` (40,3 %) destacan, pero un boletín semanal
+   y una venta cruzada post-compra se dirigen a quien *ya* es cliente: no tiene
+   sentido que consten como la campaña de una *primera* reserva. Probable fallo
+   de atribución de origen — no sirve para decidir inversión en captación
+   (además, muestras pequeñas: 125 y 144 clientes, IC ±9 pp). Como herramienta
+   de *retención* el newsletter sí tiene un papel, pero modesto: ~5 % de las
+   segundas reservas.
 5. **Dispositivo — sin efecto real.** 29,3 % / 28,9 % / 26,1 % (mobile /
    desktop / tablet). Diferencias mínimas: se descarta como factor de
    repetición. (Sí afecta a la *primera compra*: escritorio convierte ~2,3×
@@ -117,7 +120,9 @@ suficiente antigüedad). Los repetidores generan el **46 % de la facturación**.
 
 > Matiz para la defensa: ~la mitad de las segundas reservas ocurren en menos de
 > 14 días del primer pedido — son del mismo viaje, no recompra real. La recompra
-> a más de 14 días (mediana ~80 días) es del 17 %.
+> a más de 14 días (mediana ~80 días) es del **14 %** (17 % si se restringe a las
+> cohortes maduras, con ≥ 180 días de exposición — el mismo criterio que lleva la
+> tasa bruta del 28,9 % al 32 %).
 
 ### 2. Destinos — ¿qué localizaciones tienen mayor acogida y cuáles retienen mejor?
 
