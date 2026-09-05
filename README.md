@@ -120,7 +120,9 @@ suficiente antigüedad). Los repetidores generan el **46 % de la facturación**.
 
 > Matiz para la defensa: ~la mitad de las segundas reservas ocurren en menos de
 > 14 días del primer pedido — son del mismo viaje, no recompra real. La recompra
-> a más de 14 días (mediana ~80 días) es del 17 %.
+> a más de 14 días (mediana ~80 días) es del **14 %** (17 % si se restringe a las
+> cohortes maduras, con ≥ 180 días de exposición — el mismo criterio que lleva la
+> tasa bruta del 28,9 % al 32 %).
 
 ### 2. Destinos — ¿qué localizaciones tienen mayor acogida y cuáles retienen mejor?
 
