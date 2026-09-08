@@ -85,61 +85,64 @@ súbela.
 > retención controlada por canal…). El memo (`memo/memo_comex.html`) es el
 > resumen ejecutivo.
 
-### 1. Repetición — ¿qué factores explican que un cliente repita?
+### 1. Repetición — ¿qué factores explican que un cliente vuelva a comprar?
 
-Tasa base: **28,9 %** de los compradores repiten (≈ 32 % en cohortes con
-suficiente antigüedad). Los repetidores generan el **46 % de la facturación**.
+Tasa de recompra: **≈16 %** (definición arriba; base madura, estable 14–19 % en
+seis cohortes trimestrales). Quien recompra vale **222 €** frente a **109 €** del
+que compra una sola vez. Son **tres factores independientes** — verificado por
+estratificación y estandarización, ninguno es reflejo de otro:
 
-1. **Free tour de entrada — el factor con mayor efecto.** Los clientes cuya
-   primera reserva fue un free tour repiten el **52,2 %**, frente al **22,8 %**
-   de los que empezaron con una reserva de pago. El efecto se mantiene *dentro*
-   de cada canal, así que no es un artefacto del canal de captación. Además, el
-   100 % de las segundas reservas de esos clientes son de pago.
-2. **Canal — el factor más sólido de forma accionable.** El canal de adquisición
-   predice la retención con claridad (Email ≈ 43 % vs. Social ≈ 21 %) y es algo
-   sobre lo que el negocio puede actuar directamente (dónde invertir el
-   presupuesto de marketing). Social y Afiliados son el tráfico de peor calidad:
-   retienen peor *y* cancelan más.
-3. **Destino — efecto real pero menos accionable.** Rango del 17,9 % (Marrakech)
-   al 36,8 % (Roma), con muestras robustas (300–710 clientes por destino). El
-   efecto es real, pero Civitatis no puede "fabricar" más demanda de Roma a
-   voluntad: es más útil como información (dónde reforzar oferta o marketing
-   local) que como palanca directa.
-4. **Campaña — dato interesante, con una advertencia.** `newsletter_semanal`
-   (49,6 %) y `post_compra_crossell` (40,3 %) destacan, pero un boletín semanal
-   y una venta cruzada post-compra se dirigen a quien *ya* es cliente: no tiene
-   sentido que consten como la campaña de una *primera* reserva. Probable fallo
-   de atribución de origen — no sirve para decidir inversión en captación
-   (además, muestras pequeñas: 125 y 144 clientes, IC ±9 pp). Como herramienta
-   de *retención* el newsletter sí tiene un papel, pero modesto: ~5 % de las
-   segundas reservas.
-5. **Dispositivo — sin efecto real.** 29,3 % / 28,9 % / 26,1 % (mobile /
-   desktop / tablet). Diferencias mínimas: se descarta como factor de
-   repetición. (Sí afecta a la *primera compra*: escritorio convierte ~2,3×
-   mejor que móvil.)
+1. **Canal de captación — el factor, y el más accionable.** Entre clientes con
+   primera reserva de pago (aislando el free tour) y sin Email (etiquetado
+   contaminado): Directo **22,5 %** · SEO 17,8 % · SEM 14,6 % · Afiliados 13,1 %
+   · Social **10,2 %**. El IC de Directo no solapa el de Social. El gradiente
+   aguanta *dentro* de cada estrato free/pago y al estandarizar por mix de
+   destino. Social y Afiliados, además, cancelan más (17–18 % vs. 13 %).
+2. **Free tour de entrada — en negativo.** Quien entra por un free tour recompra
+   **menos**: 11,4 % vs. 18,0 % de pago, dentro de cada canal. El free tour
+   engancha y genera una segunda reserva de pago *en el mismo viaje*, pero no
+   crea lealtad: es palanca de **conversión**, no de fidelización.
+3. **Destino de la primera experiencia — efecto modesto.** Madrid 21,7 % y Roma
+   21,2 % arriba; Nueva York 11,9 % y Marrakech 10,6 % abajo (extremos con IC
+   separado). Sobrevive a estandarizar por canal. Es información sobre dónde el
+   producto cumple la expectativa, no una palanca directa.
 
-> Matiz para la defensa: ~la mitad de las segundas reservas ocurren en menos de
-> 14 días del primer pedido — son del mismo viaje, no recompra real. La recompra
-> a más de 14 días (mediana ~80 días) es del **14 %**.
+**No explican nada:** campaña (ninguna de captación destaca; las que suben son
+campañas de retención mal etiquetadas como origen), importe de la 1.ª más allá
+de free/pago, tamaño de grupo, antelación, dispositivo habitual, edad.
+**La cancelación no es churn:** quien sufre una cancelación recompra *más*
+(23,4 % vs. 15,7 %); el 31 % de quienes cancelan su primera reserva vuelve a
+comprar.
 
 ### 2. Destinos — ¿qué localizaciones tienen mayor acogida y cuáles retienen mejor?
 
-- **Madrid y Roma** concentran el mayor volumen de reservas y, además, la
-  retención más alta: son los **destinos ancla** del negocio.
-- **Marrakech**, en el extremo opuesto, combina el menor volumen con la menor
-  retención (17,9 %) → conviene revisar la propuesta de valor o el
-  posicionamiento de ese destino.
-- **París** genera más facturación con menos reservas que Madrid, señal de un
-  **ticket medio superior** que merece investigarse (¿tours más caros?, ¿más
-  personas por reserva?).
+- **Acogida = demanda × conversión**, no solo volumen. **Madrid, Roma, París y
+  Londres** lideran el interés de búsqueda *y* las reservas *y* la conversión
+  interés→reserva (~10 por 100 sesiones): son ~48 % del negocio y los **destinos
+  ancla**.
+- **París factura más que Madrid con menos reservas.** No es por grupos más
+  grandes (2,94 personas/reserva vs. 3,08 en Madrid) — es **precio por persona**
+  (32 € vs. 24 €): vende tours más caros.
+- **Nueva York** capta bien (5.ª en reservas) pero retiene mal (11,9 %): cubo
+  con fugas.
+- **Atenas** es la 3.ª en interés de búsqueda (casi como Roma) pero convierte la
+  mitad (5,3 por 100 sesiones) — demanda desaprovechada. No es el precio (ticket
+  63 €, el más barato).
+- **Marrakech** flojea en interés, conversión y retención (10,6 %). Su ticket es
+  medio-alto (109 €) como Lisboa o Londres, que retienen mejor: es
+  encaje/expectativa, no precio → revisar la propuesta de valor.
 
 ### 3. Estado del negocio — ¿cuánto hemos vendido realmente?
 
-- **624.789 € confirmados** sobre **6.928 reservas**.
-- Las **cancelaciones** representan una pérdida de **108.157 €** — un 17,3 %
-  adicional sobre la venta confirmada —, lo que convierte la **reducción de
-  cancelaciones** en la palanca de mayor impacto económico inmediato, por encima
-  incluso de la cifra pendiente de confirmar (26.290 €).
+- **624.789 € confirmados** sobre **6.928 reservas** (1.072 free tours, 0 €).
+- **Crecimiento +68 % en 24 meses**, monotónico (~+15 % por semestre): de 115 k€
+  (H2 2024) a 193 k€ (H1 2026).
+- **Cancelaciones: 108.157 €** (17,3 % sobre la venta), **estables y difusas**.
+  La tasa lleva 24 meses plana (16–18 %). El *exceso* sobre esa tasa base se
+  concentra en las reservas muy anticipadas (+90 días cancelan el 24 %) y en
+  Social/Afiliados. Estimación realista de lo recuperable: **15–25 k€/año**.
+- **Riesgo operativo aparte:** 282 reservas confirmadas (27.703 €) creadas
+  *después* de la baja de su proveedor (1017 y 1004, baja 30-jun-2025).
 
 ## Decisiones y uso de IA
 
@@ -151,11 +154,11 @@ suficiente antigüedad). Los repetidores generan el **46 % de la facturación**.
 | **Volumen de ventas** | `COUNT(*)` de reservas `confirmada`, incluidos los free tours (0 €) | Mide actividad comercial gestionada, no solo ingreso (separación habitual *bookings* vs. *revenue*). |
 | **Ingreso perdido por cancelación** | `SUM(importe_eur)` de reservas `cancelada` | Pérdida ya materializada, útil para priorizar. No es una venta ni una proyección. |
 | **Pipeline pendiente** | `SUM(importe_eur)` de reservas `pendiente` | Contexto: lo que aún podría confirmarse. |
-| **Cliente recurrente** | `user_id` con ≥ 2 reservas `confirmada`, siempre en días distintos | Cada reserva es una decisión de compra independiente. Se reporta también la **recompra real** (2.ª reserva a > 14 días) porque ~la mitad de las segundas reservas ocurren en < 14 días (mismo viaje). |
+| **Cliente recurrente (recompra)** | Cliente cuya primera reserva `confirmada` **ya fue disfrutada** (su `fecha_actividad` está en el pasado) y que hace una **nueva reserva `confirmada` con `fecha_reserva` posterior a esa primera actividad**. Se mide sobre la **base madura**: clientes con ≥ 180 días desde su primera actividad. | Separa la recompra real de la reserva múltiple para un mismo viaje: **la mitad de las "segundas reservas" ocurren en < 14 días** del primer pedido (mediana 3 días) — es planificación de un único viaje, no lealtad. El corte de 180 días evita el sesgo de censura: el 66 % de las recompras ocurren en < 90 días. **Resultado: ≈16 %** (estable 14–19 % en seis cohortes trimestrales). |
 | **Sesión** | Cada `session_id` distinto en `ga_eventos`, excluyendo `es_bot = TRUE` | Cada `session_id` está asociado a un único `cookie_id` y `device`. |
 | **Conversión (bruta)** | Sesiones con ≥ 1 evento con `reserva_id` no nulo / total de sesiones | Mide si la sesión terminó en un intento de compra, sin importar el desenlace posterior. **Solo es medible en sesiones identificadas**: el evento no se dispara sin sesión iniciada. |
 | **Conversión neta / efectiva** | De esas sesiones que convirtieron, cuántas terminaron con su reserva en estado `confirmada` | Cuánta de la conversión "se mantiene". |
-| **Cohorte (pestaña Repetición)** | Clientes cuya *primera* reserva confirmada cae en el rango de fechas | Las 2 últimas cohortes trimestrales están censuradas (poco tiempo para repetir). |
+| **Cohorte (pestaña Repetición)** | Clientes cuya *primera actividad* confirmada cae en el rango de fechas | Las cohortes con < 180 días de exposición están censuradas (poco tiempo para recomprar) y se marcan como tal. |
 
 ### Decisiones de limpieza y su impacto
 

@@ -5,14 +5,18 @@ Ejecutar desde la raíz del repo:
     streamlit run src/app.py
 
 Todas las cifras respetan las mismas definiciones que src/metricas.py:
-- Venta            = importe de reservas en estado 'confirmada'
-- Cliente recurrente = user_id con >= 2 reservas confirmadas en días distintos
-- Sesión          = session_id distinto, excluyendo tráfico de bot (es_bot)
-- Conversión      = sesión con al menos un evento 'purchase' (reserva_id no nulo)
+- Venta              = importe de reservas en estado 'confirmada'
+- Cliente recurrente = cliente que, tras DISFRUTAR su primera actividad confirmada,
+                       hace una nueva reserva confirmada con fecha posterior a esa
+                       primera actividad (no cuenta la reserva múltiple del mismo viaje)
+- Sesión            = session_id distinto, excluyendo tráfico de bot (es_bot)
+- Conversión        = sesión con al menos un evento 'purchase' (solo medible en
+                      sesiones identificadas)
 
 El filtro de fechas actúa sobre reservas.fecha_reserva (y sobre ga_eventos.event_date
-en la pestaña de tráfico). En la pestaña de Repetición el filtro define la COHORTE:
-clientes cuya primera reserva confirmada cae dentro del rango.
+en la pestaña de tráfico). En la pestaña de Repetición el filtro define la COHORTE
+por la fecha de la PRIMERA ACTIVIDAD; las cohortes con < 180 días de exposición
+están censuradas (poco tiempo para recomprar) y se avisa de ello.
 """
 from __future__ import annotations
 
@@ -347,38 +351,66 @@ with tab_negocio:
 # --------------------------------------------------------------------------- #
 with tab_repeticion:
     st.info(
-        "El rango de fechas define la **cohorte**: clientes cuya *primera* reserva confirmada "
-        "cae dentro del periodo. Las 2 últimas cohortes trimestrales están censuradas "
-        "(poco tiempo para repetir) — interpreta con cautela los meses más recientes."
+        "**Cliente recurrente** = quien, tras *disfrutar* su primera actividad confirmada, "
+        "hace una nueva reserva confirmada posterior a esa actividad. No cuenta reservar "
+        "varias actividades para un mismo viaje. El rango de fechas define la **cohorte** "
+        "por la fecha de la *primera actividad*; las cohortes con < 180 días de exposición "
+        "están censuradas."
     )
 
     # CTEs (sin la palabra WITH, para poder anteponer otros CTE)
     COHORTE_CTES = f"""
-        primera AS (
+        orden AS (
             SELECT r.user_id, r.canal, r.campana, r.importe_eur, r.tour_id, t.destino,
-                   MIN(r.fecha_reserva) OVER (PARTITION BY r.user_id) AS f1
+                   r.fecha_reserva::date AS fr, r.fecha_actividad::date AS fa,
+                   ROW_NUMBER() OVER (PARTITION BY r.user_id
+                                      ORDER BY r.fecha_reserva, r.reserva_id) AS rn
             FROM reservas r JOIN tours t ON r.tour_id = t.tour_id
             WHERE r.estado = 'confirmada'
-            QUALIFY ROW_NUMBER() OVER (PARTITION BY r.user_id ORDER BY r.fecha_reserva) = 1
         ),
-        recurrencia AS (
-            SELECT user_id, COUNT(*) AS n FROM reservas WHERE estado = 'confirmada' GROUP BY 1
-        ),
+        siguiente AS (SELECT user_id, MIN(fr) AS fr_sig FROM orden WHERE rn >= 2 GROUP BY 1),
+        corte AS (SELECT MAX(fr) AS d FROM orden),
         base AS (
-            SELECT p.*, rec.n AS num_reservas, (rec.n >= 2) AS recurrente
-            FROM primera p JOIN recurrencia rec USING (user_id)
-            WHERE p.f1::date BETWEEN ? AND ?
-              AND p.canal IN {canal_sql}
-              AND p.destino IN {destino_sql}
+            SELECT o.user_id, o.canal, o.campana, o.importe_eur, o.tour_id, o.destino,
+                   o.fa AS fa1,
+                   COALESCE(s.fr_sig > o.fa, FALSE) AS recurrente,
+                   date_diff('day', o.fa, (SELECT d FROM corte)) AS dias_exposicion
+            FROM orden o
+            LEFT JOIN siguiente s USING (user_id)
+            WHERE o.rn = 1
+              AND o.fa BETWEEN ? AND ?
+              AND o.canal IN {canal_sql}
+              AND o.destino IN {destino_sql}
         )
     """
     COHORTE = f"WITH {COHORTE_CTES} "
 
-    glob = q(COHORTE + "SELECT COUNT(*) clientes, AVG(recurrente::int) pct, AVG(num_reservas) media FROM base", P).iloc[0]
+    glob = q(
+        COHORTE + """
+        SELECT COUNT(*) AS clientes,
+               AVG(recurrente::int) AS pct,
+               COUNT(*) FILTER (WHERE dias_exposicion < 180) AS censurados,
+               AVG(recurrente::int) FILTER (WHERE dias_exposicion >= 180) AS pct_maduros,
+               COUNT(*) FILTER (WHERE dias_exposicion >= 180) AS n_maduros
+        FROM base
+        """,
+        P,
+    ).iloc[0]
+
     c1, c2, c3 = st.columns(3)
     c1.metric("Clientes en la cohorte", f"{int(glob.clientes or 0):,}".replace(",", "."))
-    c2.metric("Tasa de repetición", f"{100 * (glob.pct or 0):.1f} %")
-    c3.metric("Reservas por cliente", f"{glob.media or 0:.2f}")
+    c2.metric("Tasa de recompra", f"{100 * (glob.pct or 0):.1f} %")
+    c3.metric(
+        "Recompra (base madura ≥180 d)",
+        f"{100 * glob.pct_maduros:.1f} %" if pd.notna(glob.pct_maduros) else "—",
+        help=f"{int(glob.n_maduros or 0)} clientes con exposición suficiente.",
+    )
+    if (glob.censurados or 0) > 0:
+        st.caption(
+            f"⚠️ {int(glob.censurados)} de {int(glob.clientes)} clientes de la cohorte tienen "
+            "< 180 días desde su primera actividad: aún no han tenido tiempo de recomprar. "
+            "El tercer KPI los excluye."
+        )
 
     st.divider()
 
@@ -388,7 +420,8 @@ with tab_repeticion:
             COHORTE
             + f"""
             SELECT {col} AS factor, COUNT(*) AS clientes, AVG(recurrente::int) AS pct_retencion
-            FROM base GROUP BY 1 HAVING COUNT(*) >= 20 ORDER BY pct_retencion DESC
+            FROM base WHERE dias_exposicion >= 180
+            GROUP BY 1 HAVING COUNT(*) >= 20 ORDER BY pct_retencion DESC
             """,
             P,
         )
@@ -398,28 +431,34 @@ with tab_repeticion:
         df["pct_retencion"] *= 100
         st.altair_chart(
             alt.Chart(df).mark_bar(color="#0c6a5b").encode(
-                x=alt.X("pct_retencion:Q", title="% que repite"),
+                x=alt.X("pct_retencion:Q", title="% que recompra"),
                 y=alt.Y("factor:N", sort="-x", title=etiqueta),
                 tooltip=[alt.Tooltip("factor:N", title=etiqueta),
                          alt.Tooltip("pct_retencion:Q", format=".1f"), "clientes:Q"],
             ).properties(height=max(140, 34 * len(df))),
             width="stretch",
         )
-        st.caption(f"Solo grupos con ≥ 20 clientes. n total = {int(df.clientes.sum()):,}".replace(",", "."))
+        st.caption(f"Base madura (≥180 d). Solo grupos con ≥ 20 clientes. n total = {int(df.clientes.sum()):,}".replace(",", "."))
+
+    st.caption(
+        "El **canal de captación** es el factor dominante y aguanta al aislar el free tour "
+        "y el destino. El **free tour de entrada** sale en *negativo* (recompra menos). "
+        "Campaña, dispositivo, importe y tamaño de grupo no explican nada."
+    )
 
     colL, colR = st.columns(2)
     with colL:
+        st.subheader("Por canal de entrada")
+        barras_factor("canal", "Canal")
         st.subheader("Según la primera reserva fue free o de pago")
         barras_factor("tipo", "Primera reserva",
                       expr="CASE WHEN importe_eur = 0 THEN 'free tour' ELSE 'de pago' END")
-        st.subheader("Por canal de entrada")
-        barras_factor("canal", "Canal")
     with colR:
+        st.subheader("Por destino de entrada")
+        barras_factor("destino", "Destino")
         st.subheader("Por campaña de entrada")
         barras_factor("campana", "Campaña",
                       expr="COALESCE(campana, 'Sin campaña')")
-        st.subheader("Por destino de entrada")
-        barras_factor("destino", "Destino")
 
     st.subheader("Por dispositivo habitual del cliente")
     disp = q(
@@ -434,6 +473,7 @@ with tab_repeticion:
         {COHORTE_CTES}
         SELECT dh.device AS factor, COUNT(*) AS clientes, 100.0 * AVG(base.recurrente::int) AS pct_retencion
         FROM base JOIN dh USING (user_id)
+        WHERE base.dias_exposicion >= 180
         GROUP BY 1 ORDER BY pct_retencion DESC
         """,
         P,
@@ -441,16 +481,12 @@ with tab_repeticion:
     if not disp.empty:
         st.altair_chart(
             alt.Chart(disp).mark_bar(color="#5a6472").encode(
-                x=alt.X("pct_retencion:Q", title="% que repite"),
+                x=alt.X("pct_retencion:Q", title="% que recompra"),
                 y=alt.Y("factor:N", sort="-x", title="Dispositivo"),
                 tooltip=["factor:N", alt.Tooltip("pct_retencion:Q", format=".1f"), "clientes:Q"],
             ).properties(height=160),
             width="stretch",
         )
-    st.caption(
-        "**Cliente recurrente** = ≥ 2 reservas confirmadas. Ojo: ~la mitad de las segundas "
-        "reservas ocurren en < 14 días (mismo viaje), no son recompra real."
-    )
 
 # --------------------------------------------------------------------------- #
 # 3. Destinos
@@ -469,7 +505,8 @@ with tab_destinos:
         P,
     )
     retencion = q(
-        COHORTE + "SELECT destino, COUNT(*) AS clientes, 100.0 * AVG(recurrente::int) AS pct_retencion FROM base GROUP BY 1",
+        COHORTE + "SELECT destino, COUNT(*) AS clientes, 100.0 * AVG(recurrente::int) AS pct_retencion "
+        "FROM base WHERE dias_exposicion >= 180 GROUP BY 1",
         P,
     )
     tabla = acogida.merge(retencion, on="destino", how="left")
@@ -486,13 +523,13 @@ with tab_destinos:
             width="stretch",
         )
     with colR:
-        st.subheader("Retención por destino de entrada (cohorte)")
+        st.subheader("Recompra por destino de la 1ª experiencia (cohorte madura)")
         if retencion.empty:
-            st.info("Sin cohorte en el periodo.")
+            st.info("Sin cohorte madura en el periodo.")
         else:
             st.altair_chart(
                 alt.Chart(retencion).mark_bar(color="#0c6a5b").encode(
-                    x=alt.X("pct_retencion:Q", title="% que repite"),
+                    x=alt.X("pct_retencion:Q", title="% que recompra"),
                     y=alt.Y("destino:N", sort="-x", title=None),
                     tooltip=["destino:N", alt.Tooltip("pct_retencion:Q", format=".1f"), "clientes:Q"],
                 ).properties(height=380),
@@ -504,15 +541,19 @@ with tab_destinos:
         tabla.rename(columns={
             "destino": "Destino", "reservas": "Reservas", "revenue": "Revenue €",
             "ticket_medio": "Ticket medio €", "personas_medias": "Personas/reserva",
-            "clientes": "Clientes cohorte", "pct_retencion": "% retención",
+            "clientes": "Clientes cohorte", "pct_retencion": "% recompra",
         }).style.format({
             "Revenue €": "{:,.0f}", "Ticket medio €": "{:,.1f}",
-            "Personas/reserva": "{:.2f}", "% retención": "{:.1f}",
+            "Personas/reserva": "{:.2f}", "% recompra": "{:.1f}",
         }),
         width="stretch",
         hide_index=True,
     )
-    st.caption("La retención usa la cohorte del periodo; la acogida usa todas las reservas del periodo.")
+    st.caption(
+        "La recompra usa la cohorte madura del periodo (≥180 d desde la 1ª actividad); "
+        "la acogida usa todas las reservas del periodo. **París** factura más que Madrid "
+        "con menos reservas por **precio por persona**, no por grupos más grandes."
+    )
 
 # --------------------------------------------------------------------------- #
 # 4. Tráfico y conversión
@@ -578,16 +619,31 @@ with tab_trafico:
             st.subheader("Conversión por dispositivo")
             dev = (
                 ses.groupby("device", as_index=False)
-                .agg(sesiones=("session_id", "count"), compras=("pu", "sum"))
-                .assign(pct_conv=lambda d: 100 * d.compras / d.sesiones)
+                .agg(sesiones=("session_id", "count"), ident=("ident", "sum"), compras=("pu", "sum"))
+            )
+            dev["Bruto (todas las sesiones)"] = 100 * dev.compras / dev.sesiones
+            dev["Entre sesiones identificadas"] = 100 * dev.compras / dev.ident.replace(0, pd.NA)
+            dev_long = dev.melt(
+                id_vars=["device"],
+                value_vars=["Bruto (todas las sesiones)", "Entre sesiones identificadas"],
+                var_name="medida", value_name="pct",
             )
             st.altair_chart(
-                alt.Chart(dev).mark_bar(color="#0c6a5b").encode(
-                    x=alt.X("pct_conv:Q", title="% sesiones con compra"),
-                    y=alt.Y("device:N", sort="-x", title=None),
-                    tooltip=["device:N", alt.Tooltip("pct_conv:Q", format=".2f"), "sesiones:Q"],
+                alt.Chart(dev_long).mark_bar().encode(
+                    x=alt.X("pct:Q", title="% sesiones con compra"),
+                    y=alt.Y("device:N", title=None),
+                    yOffset="medida:N",
+                    color=alt.Color("medida:N", title=None,
+                                    scale=alt.Scale(range=["#c9c3b4", "#0c6a5b"]),
+                                    legend=alt.Legend(orient="bottom")),
+                    tooltip=["device:N", "medida:N", alt.Tooltip("pct:Q", format=".2f")],
                 ).properties(height=300),
                 width="stretch",
+            )
+            st.caption(
+                "El móvil convierte peor **en bruto**, pero es porque se identifica menos "
+                "(y comprar exige cuenta). **Entre sesiones identificadas, móvil y escritorio "
+                "convierten casi igual** → la fricción está en el muro de login, no en el checkout."
             )
 
         st.subheader("Embudo por tipo de sesión")
