@@ -140,7 +140,7 @@
   }
   .discard ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 9px; }
   .discard li { font-size: 14.5px; line-height: 1.5; padding-left: 20px; position: relative; }
-  .discard li::before { content: "✕"; position: absolute; left: 0; color: var(--alert); font-size: 12px; top: 2px; }
+  .discard li::before { content: "\2715"; position: absolute; left: 0; color: var(--alert); font-size: 12px; top: 2px; }
   .discard li b { color: var(--ink); }
 
   .caveat {
@@ -192,171 +192,200 @@
 <div class="sheet">
 
   <header class="masthead">
-    <p class="kicker">Memorándum · Data &amp; Estrategia</p>
-    <h1>Tres respuestas para el Comité</h1>
+    <p class="kicker">Memor&aacute;ndum &middot; Data &amp; Estrategia</p>
+    <h1>Tres respuestas para el Comit&eacute;</h1>
     <dl class="meta">
-      <dt>Para</dt><dd>Comité Ejecutivo (COMEX)</dd>
-      <dt>Asunto</dt><dd>Repetición de clientes · Destinos · Estado del negocio</dd>
-      <dt>Ventana</dt><dd>jul 2024 – jun 2026 (24 meses de datos reales)</dd>
-      <dt>Base</dt><dd>8.369 reservas · 5.785 compradores · 703 k eventos GA</dd>
+      <dt>Para</dt><dd>Comit&eacute; Ejecutivo (COMEX)</dd>
+      <dt>Asunto</dt><dd>Repetici&oacute;n de clientes &middot; Destinos &middot; Estado del negocio</dd>
+      <dt>Ventana</dt><dd>jul 2024 &ndash; jun 2026 (24 meses de datos reales)</dd>
+      <dt>Base</dt><dd>6.928 reservas confirmadas &middot; 5.099 compradores &middot; 703 k eventos GA</dd>
     </dl>
   </header>
 
   <p class="thesis">
-    Vendemos bien y crecemos, pero <b>perdemos 108 k€ en cancelaciones</b> (unos 54 k€ al año)
-    y <b>solo 1 de cada 5 clientes entra por nuestro mayor gancho de fidelización</b>: el free
-    tour, que casi triplica la probabilidad de que un cliente vuelva.
+    Civitatis vende <b>624.789 &euro;</b> y <b>crece +68 % en dos a&ntilde;os</b> &mdash;la foto es buena&mdash;.
+    Pero dejamos valor sobre la mesa en tres frentes: captamos demasiado tr&aacute;fico de
+    <b>Social y Afiliados</b>, que ni convierte ni vuelve; <b>comprar exige crear cuenta</b>,
+    y en m&oacute;vil (70 % del tr&aacute;fico) casi nadie lo hace; y perdemos <b>108 k&euro; en
+    cancelaciones</b> que no bajan.
   </p>
 
 
   <section class="answer">
     <span class="num">01</span>
-    <p class="q">¿Cuánto hemos vendido realmente?</p>
-    <h2>624.789 € confirmados en 24 meses. El problema no es cuánto vendemos, sino cuánto se cae.</h2>
+    <p class="q">&iquest;Cu&aacute;nto hemos vendido realmente?</p>
+    <h2>624.789 &euro; confirmados en 24 meses, creciendo +68 %. La foto de ingresos es buena.</h2>
 
     <div class="stats">
-      <div class="stat"><span class="v">624.789 €</span><span class="l">Venta confirmada · 6.928 reservas</span></div>
-      <div class="stat"><span class="v alert">108.157 €</span><span class="l">Cancelado en 24 meses (~54 k€/año) · 17,3 % sobre la venta</span></div>
-      <div class="stat"><span class="v">26.290 €</span><span class="l">Pipeline pendiente</span></div>
-      <div class="stat"><span class="v">21 k → 35 k €</span><span class="l">Facturación mensual: 2024 → 2026</span></div>
+      <div class="stat"><span class="v">624.789 &euro;</span><span class="l">Venta confirmada &middot; 6.928 reservas (1.072 free tours)</span></div>
+      <div class="stat"><span class="v">+68 %</span><span class="l">Ingreso semestral: 115 k&euro; (H2 2024) &rarr; 193 k&euro; (H1 2026)</span></div>
+      <div class="stat"><span class="v alert">108.157 &euro;</span><span class="l">Cancelado en 24 meses &middot; 17 % sobre la venta</span></div>
+      <div class="stat"><span class="v">26.290 &euro;</span><span class="l">Pipeline pendiente de confirmar</span></div>
     </div>
 
-    <p><strong>Definición de venta:</strong> importe de las reservas en estado <em>confirmada</em>.
-    Es dinero comprometido, no intención de compra ni proyección. Uso <code>reservas.estado</code>
-    como fuente de verdad —no Google Analytics—, porque 68 reservas reales no tienen ningún
-    evento registrado (fallo de tracking del 10–15 de marzo de 2026).</p>
+    <div class="bars">
+      <div class="bar-row"><span class="name">H2 2024</span><span class="bar-track"><span class="bar-fill" style="width:59.6%"></span></span><span class="val">115 k&euro;</span></div>
+      <div class="bar-row"><span class="name">H1 2025</span><span class="bar-track"><span class="bar-fill" style="width:72.5%"></span></span><span class="val">140 k&euro;</span></div>
+      <div class="bar-row"><span class="name">H2 2025</span><span class="bar-track"><span class="bar-fill" style="width:91.2%"></span></span><span class="val">176 k&euro;</span></div>
+      <div class="bar-row"><span class="name">H1 2026</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="val">193 k&euro;</span></div>
+    </div>
+    <p class="chart-cap">Venta confirmada por semestre. Crecimiento sostenido, ~+15 % cada seis meses.</p>
 
-    <p><strong>Dónde está la fuga:</strong> las cancelaciones se disparan con la antelación
-    —<strong>24 %</strong> a más de 90 días vs. <strong>10 %</strong> a menos de una semana— y
-    en los canales <strong>Social y Afiliados (17–18 %)</strong>. No son estacionales ni van a peor:
-    llevan 24 meses estables entre el 12 y el 17 %.</p>
+    <p><strong>Definici&oacute;n de venta:</strong> importe de las reservas en estado <em>confirmada</em>.
+    Es dinero comprometido, no intenci&oacute;n de compra ni proyecci&oacute;n. Uso <code>reservas.estado</code>
+    como fuente de verdad &mdash;no Google Analytics&mdash;, porque 66 reservas reales del 10&ndash;15 de marzo
+    de 2026 no tienen ning&uacute;n evento registrado (ca&iacute;da del tracking). Sumar el pipeline pendiente
+    solo mueve la cifra un 4 % (651 k&euro;) y no cambia el mensaje.</p>
+
+    <p><strong>Las cancelaciones no bajan, pero no hay un solo bot&oacute;n que las arregle.</strong>
+    La tasa lleva 24 meses plana (16&ndash;18 %), ni estacional ni empeorando. El grueso del dinero
+    (62 k&euro;, el 58 %) est&aacute; en reservas con 8&ndash;30 d&iacute;as de antelaci&oacute;n, pero solo
+    porque ah&iacute; est&aacute; el volumen: su tasa (14 %) es la normal. El <em>exceso</em> real se
+    concentra en las reservas muy anticipadas (+90 d&iacute;as cancelan el 24 %) y en los canales
+    <strong>Social y Afiliados (17&ndash;18 % vs. 13 % del resto)</strong>. Estimaci&oacute;n realista de lo
+    recuperable: <strong>15&ndash;25 k&euro;/a&ntilde;o</strong>, no 54.</p>
 
     <div class="discard">
-      <h3>Hipótesis descartadas</h3>
+      <h3>Hip&oacute;tesis descartadas</h3>
       <ul>
-        <li><b>Incluir el pipeline pendiente en la cifra de venta:</b> solo sube un 4 % (651 k€) y no cambia el mensaje.</li>
-        <li><b>Las cancelaciones están creciendo / son estacionales:</b> no; tasa plana en todo el periodo.</li>
-        <li><b>El destino explica la cancelación:</b> no; oscila 12–15 % sin diferencias reales.</li>
+        <li><b>Las cancelaciones son estacionales o van a peor:</b> no; tasa plana los 24 meses.</li>
+        <li><b>El destino explica la cancelaci&oacute;n:</b> no; oscila 12&ndash;15 % sin diferencias fiables.</li>
+        <li><b>Una cancelaci&oacute;n es un cliente perdido:</b> no; el 31 % de quienes cancelan su primera reserva vuelve a comprar.</li>
       </ul>
     </div>
 
-    <p class="caveat"><b>Riesgo operativo aparte:</b> 282 reservas confirmadas (27.703 €) se crearon
-    <em>después</em> de que su proveedor causara baja. Operaciones debería confirmar si el servicio se prestó.</p>
+    <p class="caveat"><b>Riesgo operativo aparte:</b> 282 reservas confirmadas (27.703 &euro;) se crearon
+    <em>despu&eacute;s</em> de que su proveedor causara baja &mdash;el sistema no lo impide&mdash;.
+    Operaciones deber&iacute;a confirmar si el servicio se prest&oacute;.</p>
   </section>
 
 
   <section class="answer">
     <span class="num">02</span>
-    <p class="q">¿Qué factores explican que un cliente repita o no?</p>
-    <h2>El factor decisivo es haber entrado por un free tour. El segundo, el canal. Dispositivo, importe y campaña no explican nada.</h2>
+    <p class="q">&iquest;Qu&eacute; factores explican que un cliente repita o no?</p>
+    <h2>Lo que m&aacute;s predice que un cliente vuelva es de d&oacute;nde vino. El free tour trae volumen, pero no fideliza.</h2>
 
     <div class="verdict">
-      <b>28,9 %</b> de los compradores repiten. Y esos repetidores
-      generan el <b>46 % de la facturación</b> —195 €/cliente frente a 93 € del que compra una vez—.
-      Por eso mueve la aguja.
+      <b>~16 %</b> de los clientes que prueban Civitatis vuelven a comprar en otro viaje
+      (medido sobre quienes ya disfrutaron su primera actividad hace &ge;6 meses).
+      Quien recompra vale <b>219 &euro;</b> frente a 107 &euro; del que compra una sola vez.
     </div>
 
-    <div class="bars">
-      <div class="bar-row"><span class="name">1ª = free tour</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="val">52,2 %</span></div>
-      <div class="bar-row"><span class="name">1ª = de pago</span><span class="bar-track"><span class="bar-fill dim" style="width:43.7%"></span></span><span class="val">22,8 %</span></div>
-    </div>
-    <p class="chart-cap">Retención según la primera reserva. El efecto se mantiene <em>dentro</em> de cada canal
-    (free tour retiene 43–65 %; de pago 16–35 %), así que no es un artefacto del canal.</p>
+    <p><strong>Qu&eacute; cuenta como &laquo;repetici&oacute;n&raquo;:</strong> un cliente que, <em>despu&eacute;s</em> de
+    haber disfrutado su primera actividad, hace una nueva reserva. No cuenta reservar varias
+    actividades para un mismo viaje (la mitad de las &laquo;segundas reservas&raquo; ocurren en menos de
+    14 d&iacute;as &mdash;es planificaci&oacute;n de un &uacute;nico viaje, no lealtad&mdash;).</p>
 
+    <h3 style="font-size:1rem;margin:24px 0 8px;">Factor 1 &mdash; el canal de captaci&oacute;n</h3>
     <div class="bars">
-      <div class="bar-row"><span class="name">Email</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="val">42,6 %</span></div>
-      <div class="bar-row"><span class="name">Directo</span><span class="bar-track"><span class="bar-fill" style="width:77%"></span></span><span class="val">32,8 %</span></div>
-      <div class="bar-row"><span class="name">SEO</span><span class="bar-track"><span class="bar-fill" style="width:66.7%"></span></span><span class="val">28,4 %</span></div>
-      <div class="bar-row"><span class="name">SEM</span><span class="bar-track"><span class="bar-fill" style="width:62.7%"></span></span><span class="val">26,7 %</span></div>
-      <div class="bar-row"><span class="name">Afiliados</span><span class="bar-track"><span class="bar-fill" style="width:60.1%"></span></span><span class="val">25,6 %</span></div>
-      <div class="bar-row"><span class="name">Social</span><span class="bar-track"><span class="bar-fill dim" style="width:49.1%"></span></span><span class="val">20,9 %</span></div>
+      <div class="bar-row"><span class="name">Directo</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="val">22,5 %</span></div>
+      <div class="bar-row"><span class="name">SEO</span><span class="bar-track"><span class="bar-fill" style="width:79%"></span></span><span class="val">17,8 %</span></div>
+      <div class="bar-row"><span class="name">SEM</span><span class="bar-track"><span class="bar-fill" style="width:65%"></span></span><span class="val">14,6 %</span></div>
+      <div class="bar-row"><span class="name">Afiliados</span><span class="bar-track"><span class="bar-fill dim" style="width:58%"></span></span><span class="val">13,1 %</span></div>
+      <div class="bar-row"><span class="name">Social</span><span class="bar-track"><span class="bar-fill dim" style="width:45%"></span></span><span class="val">10,2 %</span></div>
     </div>
-    <p class="chart-cap">Retención por canal de la primera reserva (IC 95 % ≈ ±3–5 pp; Email y Social no se solapan).
-    Social y Afiliados son el tráfico de peor calidad: retienen peor <em>y</em> cancelan más.</p>
+    <p class="chart-cap">Recompra seg&uacute;n el canal de la primera reserva (clientes que empezaron con una reserva de pago).
+    Directo recompra el doble que Social. Social y Afiliados, adem&aacute;s, cancelan m&aacute;s.</p>
+
+    <p>El canal no es un espejismo de los otros factores: mirando solo a los clientes que
+    empezaron pagando, Directo sigue recomprando el doble que Social; y si igualamos
+    artificialmente la mezcla de destinos de todos los canales, las cifras no cambian.
+    <strong>El canal manda por s&iacute; mismo</strong> &mdash;y es lo m&aacute;s accionable: decide d&oacute;nde va el
+    presupuesto de marketing&mdash;.</p>
+
+    <h3 style="font-size:1rem;margin:24px 0 8px;">Factor 2 &mdash; el free tour de entrada (en negativo)</h3>
+    <div class="bars">
+      <div class="bar-row"><span class="name">1&ordf; = de pago</span><span class="bar-track"><span class="bar-fill" style="width:100%"></span></span><span class="val">18,0 %</span></div>
+      <div class="bar-row"><span class="name">1&ordf; = free tour</span><span class="bar-track"><span class="bar-fill dim" style="width:63%"></span></span><span class="val">11,4 %</span></div>
+    </div>
+    <p class="chart-cap">Quien entra por un free tour recompra <em>menos</em>, dentro de cada canal.
+    El free tour engancha y genera una segunda reserva de pago <em>en el mismo viaje</em> (ticket ~107 &euro;),
+    pero no crea lealtad. Es una palanca de conversi&oacute;n, no de fidelizaci&oacute;n.</p>
+
+    <h3 style="font-size:1rem;margin:24px 0 8px;">Factor 3 &mdash; el destino de la primera experiencia (efecto modesto)</h3>
+    <p>Roma y Madrid fidelizan (~21 %); Nueva York y Marrakech, no (~11 %). Es informaci&oacute;n
+    sobre d&oacute;nde el producto cumple la expectativa &mdash;no una palanca directa&mdash;. Detalle en el bloque 03.</p>
 
     <div class="discard">
-      <h3>Hipótesis descartadas</h3>
+      <h3>No explican nada</h3>
       <ul>
-        <li><b>El dispositivo influye en la repetición:</b> 29 % / 29 % / 26 % (móvil / escritorio / tablet). Nulo. <em>(Sí influye en la compra: escritorio convierte 2,3× más que móvil.)</em></li>
-        <li><b>El importe o el tamaño del grupo de la primera reserva:</b> sin gradiente (todo 27–31 %).</li>
-        <li><b>Una cancelación puntual rompe la relación:</b> no; quien cancela su primera reserva compra después igual (31 %).</li>
+        <li><b>Campa&ntilde;a:</b> ninguna campa&ntilde;a de captaci&oacute;n destaca; las que parecen hacerlo son campa&ntilde;as de <em>retenci&oacute;n</em> mal etiquetadas como origen (por eso Email queda fuera del an&aacute;lisis).</li>
+        <li><b>Dispositivo, importe de la 1&ordf;, tama&ntilde;o de grupo, antelaci&oacute;n, edad:</b> sin gradiente.</li>
+        <li><b>Haber sufrido una cancelaci&oacute;n:</b> quien cancela recompra <em>m&aacute;s</em>, no menos.</li>
       </ul>
     </div>
-
-    <p class="caveat"><b>Matiz:</b> la mitad de los "recurrentes" reservan su
-    segunda actividad en menos de 14 días.</p>
   </section>
 
 
   <section class="answer">
     <span class="num">03</span>
-    <p class="q">¿Qué localizaciones tienen mayor acogida y cuáles retienen mejor?</p>
-    <h2>Madrid y Roma son los destinos ancla. París factura por ticket, no por volumen. Marrakech falla en todo.</h2>
+    <p class="q">&iquest;Qu&eacute; localizaciones tienen mayor acogida y cu&aacute;les retienen mejor?</p>
+    <h2>Madrid y Roma son los destinos ancla. Par&iacute;s factura por ticket, no por volumen. Nueva York y Marrakech captan pero no retienen.</h2>
 
     <div class="table-wrap">
       <table>
         <thead>
-          <tr><th>Destino</th><th>Reservas</th><th>Revenue</th><th>Ticket</th><th>Pers./res.</th><th>Retención</th></tr>
+          <tr><th>Destino</th><th>Reservas</th><th>Revenue</th><th>Ticket</th><th>Pers./res.</th><th>Recompra</th></tr>
         </thead>
         <tbody>
-          <tr class="anchor"><td>Roma</td><td>868</td><td>73.437 €</td><td>84,6 €</td><td>3,00</td><td>36,8 %</td></tr>
-          <tr class="anchor"><td>Madrid</td><td>990</td><td>74.847 €</td><td>75,6 €</td><td>3,08</td><td>34,4 %</td></tr>
-          <tr class="anchor"><td>París</td><td>819</td><td>79.255 €</td><td>96,8 €</td><td>2,94</td><td>32,0 %</td></tr>
-          <tr><td>Londres</td><td>691</td><td>73.383 €</td><td>106,2 €</td><td>2,93</td><td>29,2 %</td></tr>
-          <tr><td>Nueva York</td><td>606</td><td>51.134 €</td><td>84,4 €</td><td>2,98</td><td>22,2 %</td></tr>
-          <tr class="tail"><td>Marrakech</td><td>396</td><td>43.285 €</td><td>109,3 €</td><td>2,94</td><td>17,9 %</td></tr>
+          <tr class="anchor"><td>Madrid</td><td>990</td><td>74.847 &euro;</td><td>76 &euro;</td><td>3,08</td><td>21,7 %</td></tr>
+          <tr class="anchor"><td>Roma</td><td>868</td><td>73.437 &euro;</td><td>85 &euro;</td><td>3,00</td><td>21,2 %</td></tr>
+          <tr class="anchor"><td>Par&iacute;s</td><td>819</td><td>79.255 &euro;</td><td>97 &euro;</td><td>2,94</td><td>17,9 %</td></tr>
+          <tr><td>Londres</td><td>691</td><td>73.383 &euro;</td><td>106 &euro;</td><td>2,93</td><td>16,6 %</td></tr>
+          <tr class="tail"><td>Nueva York</td><td>606</td><td>51.134 &euro;</td><td>84 &euro;</td><td>2,98</td><td>11,9 %</td></tr>
+          <tr><td>Atenas</td><td>438</td><td>27.497 &euro;</td><td>63 &euro;</td><td>2,98</td><td>14,8 %</td></tr>
+          <tr class="tail"><td>Marrakech</td><td>396</td><td>43.285 &euro;</td><td>109 &euro;</td><td>2,94</td><td>10,6 %</td></tr>
         </tbody>
       </table>
     </div>
 
-    <p><strong>Acogida:</strong> Madrid, Roma y París concentran el mayor volumen de reservas confirmadas.
-    <strong>París factura más que Madrid con menos reservas:</strong> la hipótesis de "grupos más grandes"
-    es <em>falsa</em> —2,94 personas por reserva frente a 3,08 en Madrid—. Es <strong>precio por persona</strong>
-    (33 € vs. 24 €): simplemente vende tours más caros.</p>
+    <p><strong>Acogida</strong> = demanda &times; conversi&oacute;n, no solo volumen. Madrid, Roma, Par&iacute;s y
+    Londres lideran el inter&eacute;s <em>y</em> las reservas <em>y</em> convierten mejor: son ~48 % del
+    negocio. <strong>Par&iacute;s factura m&aacute;s que Madrid con menos reservas:</strong> la hip&oacute;tesis de
+    &laquo;grupos m&aacute;s grandes&raquo; es <em>falsa</em> (2,94 personas por reserva vs. 3,08 en Madrid).
+    Es <strong>precio por persona</strong> (32 &euro; vs. 24 &euro;): vende tours m&aacute;s caros.</p>
 
-    <p><strong>Retención:</strong> Roma (37 %), Madrid (34 %) y París (32 %) fidelizan; Marrakech (18 %),
-    Nueva York y Estambul (22 %) no.</p>
+    <p><strong>Retenci&oacute;n:</strong> Roma y Madrid fidelizan (~21 %); Nueva York (12 %) y Marrakech
+    (11 %) captan clientes que no vuelven. El efecto es real y no un reflejo del canal de entrada
+    (al estandarizar el mix de canales, el ranking no se mueve).</p>
 
     <div class="discard">
-      <h3>Hipótesis descartadas</h3>
+      <h3>Se&ntilde;ales que hay que mirar</h3>
       <ul>
-        <li><b>La retención por destino es un reflejo del mix de canal:</b> no; al estandarizar cada destino al reparto de canales global, el ranking no se mueve (Roma 37 → Marrakech 18).</li>
-        <li><b>Marrakech retiene mal porque es caro:</b> su ticket es medio-alto (109 €) como Lisboa o Londres, que retienen bastante mejor. Es un problema de encaje/expectativa, no de precio.</li>
+        <li><b>Atenas &mdash; demanda desaprovechada:</b> 3&ordf; en inter&eacute;s de b&uacute;squeda (casi como Roma), pero convierte la mitad. La gente mira y no reserva. No es el precio (ticket 63 &euro;, el m&aacute;s barato).</li>
+        <li><b>Marrakech &mdash; revisar la propuesta:</b> flojo en inter&eacute;s, conversi&oacute;n y retenci&oacute;n. Su ticket es medio-alto (109 &euro;) como Lisboa o Londres, que retienen mejor: es encaje/expectativa, no precio.</li>
       </ul>
     </div>
   </section>
 
 
   <section class="answer">
-    <span class="num">→</span>
-    <h2>Recomendaciones, por impacto económico</h2>
+    <span class="num">&rarr;</span>
+    <h2>Recomendaciones</h2>
     <div class="recs">
       <div class="rec">
         <div>
-          <h3>Atacar las cancelaciones antes que nada</h3>
-          <p>~54 k€/año en juego (108 k€ acumulados), la mayor ganancia inmediata. Depósito o recordatorios
-          reforzados para reservas con más de 30 días de antelación; auditar la calidad de Social y Afiliados.</p>
+          <h3>Reasignar captaci&oacute;n de Social y Afiliados hacia Directo, SEO y SEM</h3>
+          <p>Es la &uacute;nica palanca que mejora <em>dos</em> problemas a la vez: el tr&aacute;fico Directo/SEO
+          recompra 2&times; y cancela ~5 pp menos que Social/Afiliados. Empezar por auditar la calidad
+          de esas dos fuentes antes de renovar inversi&oacute;n.</p>
         </div>
       </div>
       <div class="rec">
         <div>
-          <h3>Validar si se puede escalar el free tour como vía de captación</h3>
-          <p>Casi triplica la retención y el 100 % de las segundas reservas de esos clientes son de pago
-          (ticket 107 €, y antes: 23 vs. 70 días). Hoy solo el 21 % de los clientes entra así, proporción
-          plana en 2 años. Primero hay que confirmar que es accionable: ¿hay capacidad para más plazas?,
-          ¿se promociona lo suficiente frente a los tours de pago?</p>
+          <h3>Permitir comprar sin crear cuenta (checkout como invitado)</h3>
+          <p>Hoy no hay ninguna compra sin registro. El 70 % del tr&aacute;fico es m&oacute;vil, y de sus
+          usuarios interesados solo el 19 % se identifica (vs. 35 % en escritorio) y solo el 8 %
+          compra (vs. 16 %). Una vez logueados, m&oacute;vil y escritorio convierten igual: <strong>el muro
+          de cuenta es el mayor punto de fuga del embudo</strong>.</p>
         </div>
       </div>
       <div class="rec">
         <div>
-          <h3>Reasignar presupuesto de Social/Afiliados a Email y Directo</h3>
-          <p>Retienen 1,5–2× mejor y cancelan menos. Mismo gasto, mejor cartera de clientes.</p>
-        </div>
-      </div>
-      <div class="rec">
-        <div>
-          <h3>Investigar la fricción de checkout en móvil</h3>
-          <p>El móvil es el 70 % del tráfico y convierte 2,3× peor que escritorio. Aquí hay ingreso escondido.</p>
+          <h3>Frenar el exceso de cancelaciones donde s&iacute; se puede</h3>
+          <p>Dep&oacute;sito o compromiso reforzado para reservas con m&aacute;s de 30 d&iacute;as de antelaci&oacute;n
+          (donde la tasa se dispara al 19&ndash;24 %) y filtro de calidad en Social/Afiliados.
+          Objetivo realista: 15&ndash;25 k&euro;/a&ntilde;o.</p>
         </div>
       </div>
     </div>
@@ -364,16 +393,21 @@
 
 
   <section class="answer">
-    <span class="num">·</span>
+    <span class="num">&middot;</span>
     <h2>Lo que no pude cerrar</h2>
     <ul class="next">
-      <li><strong>Tracking de conversión:</strong> el evento <code>purchase</code> solo se dispara con sesión iniciada, así que la tasa de conversión no es medible para el 90 % del tráfico (anónimo). En sesiones identificadas es del 32 %.</li>
-      <li><strong>Diccionario de campañas con Marketing:</strong> el etiquetado de origen parece mezclar campañas de captación con las de re-compra.</li>
-      <li><strong>304 reservas de SEM sin campaña asociada:</strong> ¿pérdida de trazabilidad o configuración específica?</li>
+      <li><strong>Tracking de conversi&oacute;n:</strong> el evento <code>purchase</code> solo se dispara con
+      sesi&oacute;n iniciada (cero compras an&oacute;nimas), as&iacute; que la tasa de conversi&oacute;n no es medible
+      para el 90 % del tr&aacute;fico. En sesiones identificadas es del 32 %. Hay que cerrar este hueco
+      para poder optimizar la parte alta del embudo.</li>
+      <li><strong>Diccionario de campa&ntilde;as con Marketing:</strong> el etiquetado de origen mezcla
+      campa&ntilde;as de captaci&oacute;n con las de re-compra; adem&aacute;s, 304 reservas de SEM no tienen campa&ntilde;a asociada.</li>
+      <li><strong>Atenas:</strong> entender por qu&eacute; un destino con tanto inter&eacute;s de b&uacute;squeda se
+      queda en la mitad de conversi&oacute;n que Roma o Madrid.</li>
     </ul>
   </section>
 
 
-  <p class="foot">Fuente: civitatis.duckdb · consultas en src/metricas.py y src/informe.py · datos sintéticos</p>
+  <p class="foot">Fuente: civitatis.duckdb &middot; consultas en src/metricas.py y src/informe.py &middot; datos sint&eacute;ticos</p>
 
 </div>
